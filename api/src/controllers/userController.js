@@ -1,4 +1,3 @@
-import { UserSerrvice } from "../services/userService.js";
 import { userModel } from "../database/models/userModel.js";
 
 
