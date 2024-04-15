@@ -2,18 +2,33 @@ import express from "express";
 import mongoose from "mongoose";
 import 'dotenv/config';
 import { userRouter } from "./routes/user/userRoutes.js";
+import { userAuthRouter } from "./routes/user/userAuthRoutes.js";
 
 const server = express();
 const PORT = process.env.PORT || 4000;
 
-//Midelwares
+// Middlewares
 server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
 
-//DataBase Connect
-mongoose.connect(process.env.MONGO_DB_URI);
+// catch all errors.
+// eslint-disable-next-line no-unused-vars
+server.use(function (err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send({ code: 500, message: err.message });
+});
 
-//Routes
-server.use("/api/user", userRouter)
+// catch unhandled rejection from promises.
+process.on('uncaughtException', function (err) {
+    console.error(err.stack);
+    console.log("Node NOT Exiting...");
+});
 
+// DataBase Connect
+await mongoose.connect(process.env.MONGO_DB_URI);
 
-server.listen(PORT, ()=> console.log(`API REST listening on port ****`))
+// Routes
+server.use("/api/user", userRouter);
+server.use("/api/auth", userAuthRouter);
+
+server.listen(PORT, () => console.log(`API REST listening on port ****`));

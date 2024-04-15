@@ -1,28 +1,40 @@
-import { userModel } from "../database/models/userModel.js";
+import { UserModel } from "../database/models/userSchema.js";
 
 export const getAllUsersService = async () => {
-    const users = await userModel.name;
-    return users
+  try {
+    const users = await UserModel.find({});
+    return users;
+  } catch (error) {
+    throw new Error (error);
   };
-  
-  export const userByIdService = async () => {
-    const user = await userModel.findOne({ _id: req.params.id });
+};
+
+export const userByIdService = async (userData) => {
+  try {
+    const user = await UserModel.findOne(userData); 
+    return user;
+  } catch (error) {
+    throw new Error(error);
   };
-  
-  export const createUserService = async () => {
-    const createdUser = await userModel.create(req.body);
+};
+
+export const updateUserService = async (userDataId, updatedData) => {
+  try {
+    const updatedUserAuth = await UserAuthModel.findOneAndUpdate(userDataId, updatedData, { new: true });
+
+    const user = await UserModel.findOneAndUpdate({ userAuth: userDataId }, updatedData, { new: true });
+
+    return user;
+  } catch (error) {
+    throw new Error(error);
   };
-  
-  export const updateUserService = async () => {
-    const updatedUser = await userModel.findOneAndUpdate(
-      { _id: req.params.id },
-      req.body,
-      { new: true }
-    );
+};
+
+export const deleteUserService = async (userData) => {
+  try {
+    const deletedUser = await UserModel.findOneAndDelete(userData);
+    return deletedUser;
+  } catch (error) {
+    throw new Error(error);
   };
-  
-  export const deleteUserService = async () => {
-    const deletedUser = await userModel.findOneAndDelete({
-      _id: req.params.id,
-    });
-  };
+};
