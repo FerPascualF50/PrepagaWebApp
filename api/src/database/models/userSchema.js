@@ -36,6 +36,10 @@ const UserSchema = mongoose.Schema({
       type: Boolean,
       default: false,
     },
+    imageProfile:{
+      type: String,
+      default:'https://www.canva.com/design/DAGClBPXl8s/4G5HKvKG8hLR9S50bEV8cw/view?utm_content=DAGClBPXl8s&utm_campaign=designshare&utm_medium=link&utm_source=editor',
+    }
   },
   { timestamps: true }
 );
