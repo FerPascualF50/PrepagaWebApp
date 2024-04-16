@@ -7,4 +7,4 @@ userAuthRouter
   .post("/signup", registerUser)
   .post("/login", loginUser)
   .post("/send-validation-email/:userId", sendValidationEmailController)
-  .patch("/validate-email/:userId", validateEmail);
+  .get("/validate-email/:userId", validateEmail);
