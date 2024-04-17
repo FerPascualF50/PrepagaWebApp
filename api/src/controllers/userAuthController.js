@@ -8,10 +8,11 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
 
-    const access_token = await createUserAuth({ userName, password, firstName, lastName });
-    res.status(201).json({ access_token });
+    const { id, userNameCreated } = await createUserAuth({ userName, password, firstName, lastName });
+
+    res.status(201).json({ success: true, response: {id,  userName: userNameCreated }, message: 'Usuario crado con éxito' });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -19,25 +20,20 @@ export const loginUser = async (req, res) => {
   try {
     const { userName, password } = req.body;
 
-    if (!userName) {
-      return res.status(400).send({ success: false, message: 'El nombre de usuario es obligatorio' });
-    }
-
-    if (!password) {
-      return res.status(400).send({ success: false, message: 'La contraseña es obligatoria' });
+    if (!userName && !password) {
+      return res.status(400).json({ success: false, message: 'Usuario  y password son obligatorios' });
     }
 
     const access_token = await userAuth(userName, password);
-    res.status(200).send({ success: true, message: 'Inicio de sesión exitoso', access_token });
+    res.status(200).json({ success: true, message: 'Inicio de sesión exitoso', access_token });
   } catch (error) {
-    res.status(400).send({ success: false, message: 'Ups... El inicio de sesión no pudo ser completado correctamente', data: { error: error.message } });
+    res.status(400).json({ success: false, message: 'Ups... El inicio de sesión no pudo ser completado correctamente', data: { error: error.message } });
   }
 };
 
 export const sendValidationEmailController = async (req, res) => {
   try {
     const { userId } = req.params._id;
-    // const { confirmationCode } = req.body;
 
     const user = await UserModel.findById(userId);
 
@@ -63,7 +59,7 @@ export const validateEmail = async (req, res) => {
     const { userName } = req.query;
 
     const success = await updateUserValidation(userId, userName);
-
+    
     if (success) {
       return res.status(200).json({ success: true, message: 'Correo electrónico validado correctamente' });
     } else {

@@ -12,12 +12,9 @@ export const createUserAuth = async (userData) => {
     const { userName, password, firstName, lastName } = userData;
 
     const isUser = await UserAuthModel.findOne({ userName });
-    
-    if (isUser) {
-      return  {message: `El correo electrónico ${userName} ya está registrado`} ;
-    }
-
-    const saltOrRounds = 10
+    if (isUser) throw new Error('El usuario ya se encuentra registrado');
+  
+    const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
 
     const newUserAuth = new UserAuthModel({
@@ -38,15 +35,14 @@ export const createUserAuth = async (userData) => {
 
     const createdUser = await newUser.save();
 
-    const access_token = jwt.sign({ id: createdUserAuth._id, confirmationCode: hashedConfirmationCode }, process.env.JWT_SECRET );
-    
-    const emailSent = await sendValidationEmailService(createdUserAuth.id, userName);
+    const emailSent = await sendValidationEmailService(createdUserAuth._id, userName);
 
-    return access_token;
+    return {id: createdUserAuth['_id'], userNameCreated: createdUserAuth.userName} ;
   } catch (error) {
-    throw error.message;
+    throw error;
   }
 };
+
 
 // envio de mail de confirmación
 const transporter = nodemailer.createTransport({
@@ -64,6 +60,7 @@ const transporter = nodemailer.createTransport({
 const sendValidationEmailService = async (userId, userName) => {
   try {
     const user = await UserAuthModel.findById(userId);
+
 
     if (!user) throw new Error("El suario no existe");
     
@@ -97,6 +94,7 @@ export const updateUserValidation = async (userId, userName) => {
 
     return true;
   } catch (error) {
+    console.error(error)
     return false;
   }
 };
