@@ -1,17 +1,17 @@
-import { createUserAndAuth, userAuth, sendValidationEmailService, updateUserValidation  } from "../services/userAuthService.js";
+import { createUserAuth, userAuth, updateUserValidation  } from "../services/userAuthService.js";
 
 export const registerUser = async (req, res) => {
   try {
     const { userName, password, firstName, lastName } = req.body;
 
     if (!(userName && password && firstName && lastName)) {
-      return res.status(400).send({ error: 'Todos los campos son obligatorios' });
+      return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
 
-    const access_token = await createUserAndAuth({ userName, password, firstName, lastName });
-    res.status(201).send({ access_token });
+    const access_token = await createUserAuth({ userName, password, firstName, lastName });
+    res.status(201).json({ access_token });
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -37,16 +37,17 @@ export const loginUser = async (req, res) => {
 export const sendValidationEmailController = async (req, res) => {
   try {
     const { userId } = req.params._id;
+    // const { confirmationCode } = req.body;
 
-    const user = await UserAuthModel.findById(userId);
+    const user = await UserModel.findById(userId);
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
     }
 
-    const result = await sendValidationEmailService(userId);
+    const emailSent = await sendValidationEmailService(userId, user.confirmationCode);
 
-    if (result) {
+    if (emailSent) {
       return res.status(200).json({ success: true, message: 'Correo electrónico de validación enviado correctamente' });
     } else {
       return res.status(404).json({ success: false, message: 'Error al enviar el correo electrónico de validación' });
@@ -59,15 +60,16 @@ export const sendValidationEmailController = async (req, res) => {
 export const validateEmail = async (req, res) => {
   try {
     const { userId } = req.params;
+    const { userName } = req.query;
 
-    const success = await updateUserValidation(userId);
+    const success = await updateUserValidation(userId, userName);
 
     if (success) {
       return res.status(200).json({ success: true, message: 'Correo electrónico validado correctamente' });
     } else {
-      return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+      return res.status(404).json({ success: false, message: 'Error al validar el correo electrónico' });
     }
   } catch (error) {
-    return res.status(500).json({ success: false, message: 'Error al validar el correo electrónico', error: error.message });
+    return res.status(500).json({ success: false, message: 'Error al validar el correo electrónico catch', error: error.message });
   }
 };

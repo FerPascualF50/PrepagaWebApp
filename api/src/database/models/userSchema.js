@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
-const UserSchema = mongoose.Schema({
+const UserSchema = mongoose.Schema(
+  {
     _id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "UserAuth",
@@ -36,12 +37,17 @@ const UserSchema = mongoose.Schema({
       type: Boolean,
       default: false,
     },
-    imageProfile:{
+    imageProfile: {
       type: String,
-      default:'https://www.canva.com/design/DAGClBPXl8s/4G5HKvKG8hLR9S50bEV8cw/view?utm_content=DAGClBPXl8s&utm_campaign=designshare&utm_medium=link&utm_source=editor',
-    }
+      default:
+        "https://www.canva.com/design/DAGClBPXl8s/4G5HKvKG8hLR9S50bEV8cw/view?utm_content=DAGClBPXl8s&utm_campaign=designshare&utm_medium=link&utm_source=editor",
+    },
+    confirmationCode: {
+      type: String,
+      unique: true,
+    },
   },
   { timestamps: true }
 );
 
-export const UserModel =  mongoose.model("User", UserSchema);
+export const UserModel = mongoose.model("User", UserSchema);
