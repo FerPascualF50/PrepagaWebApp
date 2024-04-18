@@ -86,7 +86,7 @@ export const updateUserValidation = async (userId, userName) => {
     const userDB = await UserModel.findById(userId);
 
     const confirmationCodeMatch = await bcrypt.compare(userName, userDB.confirmationCode);
-
+    
     if (!user && !confirmationCodeMatch) throw new Error("Usuario inexistente");
   
     userDB.userValidated = true;
@@ -102,17 +102,28 @@ export const updateUserValidation = async (userId, userName) => {
 export const userAuth = async (userName, password) => {
   try {
     UserAuthModel.schema.path("password").select(true);
-    const user = await UserAuthModel.findOne({ userName });
+    const userAuth = await UserAuthModel.findOne({ userName });
+
+    if ( !userAuth ) throw new Error("Nombre de usuario o contraseña incorrectos");
     UserAuthModel.schema.path("password").select(false);
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const userInfo = await UserModel.findById( userAuth._id );
     
-    if (!user && !passwordMatch) throw new Error("Nombre de usuario o contraseña incorrectos");
-  
-    const access_token = jwt.sign(user, process.env.JWT_SECRET );
+    if (!userInfo.userValidated ) throw new Error ('Revisa tu e-mail y valida tu cuenta')
+    
+    const passwordMatch = await bcrypt.compare(password, userAuth.password);
+    if (!passwordMatch) throw new Error("Nombre de usuario o contraseña incorrectos");
 
+    const payload = {
+      _id: userAuth._id,
+      userName: userAuth.userName,
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName
+    };
+
+    const access_token = jwt.sign(payload, process.env.JWT_SECRET);
     return access_token;
   } catch (error) {
-    throw error.message;
+    throw error;
   }
 };

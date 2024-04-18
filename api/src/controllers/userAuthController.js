@@ -45,16 +45,18 @@ export const loginUser = async (req, res) => {
   try {
     const { userName, password } = req.body;
 
-    if (!userName && !password) {
-      return res.status(400).json({ success: false, message: 'Usuario  y password son obligatorios' });
+    if (!userName || !password) {
+      return res.status(400).json({ success: false, message: 'El nombre de usuario y la contraseña son obligatorios' });
     }
 
     const access_token = await userAuth(userName, password);
-    res.status(200).json({ success: true, response: access_token, message: 'Inicio de sesión exitoso', access_token });
+    
+    res.status(200).json({ success: true, message: 'Inicio de sesión exitoso', access_token });
   } catch (error) {
-    res.status(400).json({ success: false, message: 'Ups... El inicio de sesión no pudo ser completado correctamente', data: { error: error.message } });
+    res.status(400).json({ success: false, message: 'El inicio de sesión no pudo ser completado correctamente', error: error.message });
   }
 };
+
 
 export const validateEmail = async (req, res) => {
   try {
