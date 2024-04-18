@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET, JWT_EXPIRES, USER_EMAIL, EMAIL_PASS } from "../config.js";
+import { JWT_SECRET, USER_EMAIL, EMAIL_PASS } from "../config.js";
 import nodemailer from "nodemailer";
 import { UserAuthModel } from "../database/models/userAuthSchema.js";
 import { UserModel } from "../database/models/userSchema.js";
@@ -61,13 +61,11 @@ const sendValidationEmailService = async (userId, userName) => {
   try {
     const user = await UserAuthModel.findById(userId);
 
-
-    if (!user) throw new Error("El suario no existe");
+    if (!user) throw new Error("El usuario no existe");
     
     const validationLink = `http://localhost:4000/api/auth/validate-email/${userId}?userName=${encodeURIComponent(userName)}`;
 
     const emailBody = confirmEmailTemplate.replace('{{validationLink}}', validationLink);
-
 
     await transporter.sendMail({
       from: USER_EMAIL,
@@ -77,16 +75,18 @@ const sendValidationEmailService = async (userId, userName) => {
       html: emailBody
     });
   } catch (error) {
-    console.error("Error al enviar el correo electrónico de validación:", error);
-    throw error;
+    console.error("Error al enviar el e-mail de validación:", error.message);
+    throw error.message;
   }
 };
 
 export const updateUserValidation = async (userId, userName) => {
   try {
     const user = await UserAuthModel.findById(userId);
-    const userDB = await UserModel.findById(userId)
+    const userDB = await UserModel.findById(userId);
+
     const confirmationCodeMatch = await bcrypt.compare(userName, userDB.confirmationCode);
+
     if (!user && !confirmationCodeMatch) throw new Error("Usuario inexistente");
   
     userDB.userValidated = true;
@@ -104,6 +104,7 @@ export const userAuth = async (userName, password) => {
     UserAuthModel.schema.path("password").select(true);
     const user = await UserAuthModel.findOne({ userName });
     UserAuthModel.schema.path("password").select(false);
+
     const passwordMatch = await bcrypt.compare(password, user.password);
     
     if (!user && !passwordMatch) throw new Error("Nombre de usuario o contraseña incorrectos");
@@ -112,6 +113,6 @@ export const userAuth = async (userName, password) => {
 
     return access_token;
   } catch (error) {
-    throw new Error;
+    throw error.message;
   }
 };

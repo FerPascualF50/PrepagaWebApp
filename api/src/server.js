@@ -1,6 +1,5 @@
 import express from "express";
-import mongoose from "mongoose";
-import 'dotenv/config';
+import mongoose from "./database/db.js";
 import { userRouter } from "./routes/user/userRoutes.js";
 import { userAuthRouter } from "./routes/user/userAuthRoutes.js";
 
@@ -23,9 +22,6 @@ process.on('uncaughtException', function (err) {
     console.error(err.stack);
     console.log("Node NOT Exiting...");
 });
-
-// DataBase Connect
-await mongoose.connect(process.env.MONGO_DB_URI);
 
 // Routes
 server.use("/api/user", userRouter);
