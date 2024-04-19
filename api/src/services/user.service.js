@@ -1,4 +1,4 @@
-import { UserModel } from "../database/models/userSchema.js";
+import { UserModel } from "../database/models/user.schema.js";
 
 export const getAllUsersService = async () => {
   try {
@@ -21,7 +21,6 @@ export const userByIdService = async (userData) => {
 export const updateUserService = async (userDataId, updatedData) => {
   try {
     const updatedUserAuth = await UserAuthModel.findOneAndUpdate(userDataId, updatedData, { new: true });
-
     const user = await UserModel.findOneAndUpdate({ userAuth: userDataId }, updatedData, { new: true });
 
     return user;

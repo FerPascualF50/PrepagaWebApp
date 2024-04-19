@@ -1,4 +1,4 @@
-import { getAllUsersService,  userByIdService,  updateUserService, deleteUserService } from "../services/userService.js";
+import { getAllUsersService,  userByIdService,  updateUserService, deleteUserService } from "../services/user.service.js";
 
 export const getAllUsers = async (req, res) => {
   const users = await getAllUsersService({});

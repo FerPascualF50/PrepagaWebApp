@@ -31,7 +31,8 @@ const UserSchema = mongoose.Schema(
     },
     rol: {
       type: String,
-      default: "user",
+      enum: ['user', 'client', 'admin', 'manager'],
+      default: 'user',
     },
     userValidated: {
       type: Boolean,
