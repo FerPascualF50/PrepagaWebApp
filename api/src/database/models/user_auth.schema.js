@@ -10,7 +10,12 @@ const UserAuthSchema = mongoose.Schema({
       type: String,
       required: true,
       select: false
+    },
+    codeToChagePass: {
+      type: String,
+      default:'',
     }
+
   }, {timestamps: true});
   
 export const UserAuthModel = mongoose.model("UserAuth", UserAuthSchema);
