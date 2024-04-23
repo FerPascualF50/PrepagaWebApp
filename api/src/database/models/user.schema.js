@@ -16,8 +16,6 @@ const UserSchema = mongoose.Schema(
     },
     cellphone: {
       type: Number,
-      minlength: 10,
-      maxlength: 10,
     },
     address: {
       type: String,
@@ -25,16 +23,18 @@ const UserSchema = mongoose.Schema(
       maxlength: 80,
     },
     taxId: {
-      type: String,
-      minlength: 11,
-      maxlength: 11,
+      type: Number,
     },
     rol: {
       type: String,
-      enum: ['user', 'client', 'admin', 'manager'],
-      default: 'user',
+      enum: ["user", "client", "admin", "manager"],
+      default: "user",
     },
     userValidated: {
+      type: Boolean,
+      default: false,
+    },
+    deletedUser:{
       type: Boolean,
       default: false,
     },
@@ -46,6 +46,14 @@ const UserSchema = mongoose.Schema(
     confirmationCode: {
       type: String,
       unique: true,
+    },
+    plan: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Plan",
+    },
+    invoices: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Invoice",
     },
   },
   { timestamps: true }

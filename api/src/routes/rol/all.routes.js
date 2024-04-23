@@ -1,15 +1,15 @@
 import express from "express";
 import {
   //  getAllRoles, RolById, 
-  registerRol
+  registerAll
   // ,  updateRol, deleteRol
- } from "../../controllers/rol.controller.js";
+ } from "../../controllers/all.controller.js";
 
-export const rolRouter = express.Router();
+export const allRouter = express.Router();
 
-rolRouter
+allRouter
   // .get("/", getAllRoles)
   // .get("/:id", RolById)
-  .post("/", registerRol)
+  .post("/", registerAll)
   // .patch("/:id", updateRol)
   // .delete("/:id", deleteRol)

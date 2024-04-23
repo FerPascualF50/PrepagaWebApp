@@ -1,10 +1,10 @@
 import express from "express";
-import { getAllUsers, userById, updateUser, deleteUser } from "../../controllers/user.controller.js";
+import { getAllUsersController, getUserByIdController, updateUserToClientControler, deleteUserController } from "../../controllers/user.controller.js";
 
 export const userRouter = express.Router();
 
 userRouter
-  .get("/", getAllUsers)
-  .get("/:id", userById)
-  .patch("/:id", updateUser)
-  .delete("/:id", deleteUser);
+  .get("/", getAllUsersController)
+  .get("/:id", getUserByIdController)
+  .patch("/:id", updateUserToClientControler)
+  .patch("/delete/:id", deleteUserController);

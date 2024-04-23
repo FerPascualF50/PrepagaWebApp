@@ -1,6 +1,6 @@
-import { createRolService } from "../services/rol.service.js";
+import { createRolService } from "../services/all.service.js";
 
-export const registerRol = async (req, res) => {
+export const registerAll = async (req, res) => {
   try {
     const rolName = req.body;
 

@@ -9,7 +9,6 @@ import {
 } from "../../controllers/user_auth.controller.js";
 
 export const userAuthRouter = express.Router();
-
 userAuthRouter
   .post("/signup", createUserAuthController)
   .post("/login", userLoginController)

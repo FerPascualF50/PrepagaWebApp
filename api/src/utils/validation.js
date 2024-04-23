@@ -10,3 +10,11 @@ export function hasAllFields(object) {
   const noExtraKeys = data.every(item => expectedItems.includes(item));
   return allExpectedPresent && noExtraKeys;
 };
+
+export function hasStringValue(object) {
+  const data = Object.values(object);
+  return data.some((item) => (typeof item === 'string'));
+};
+export function isEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}

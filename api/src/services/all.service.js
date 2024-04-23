@@ -1,8 +1,8 @@
-import { RolModel } from "../database/models/rol.schema.js";
+import { CenterModel } from "../database/models/center.schema.js";
 
 export const getAllRolesService = async () => {
   try {
-    const roles = await RolModel.find({});
+    const roles = await CenterModel.find({});
     return roles;
   } catch (error) {
     throw error;
@@ -22,11 +22,11 @@ export const createRolService = async (rolData) => {
   try {
     const rolName = rolData;
     
-    const isRol =await RolModel.findOne(rolName);
+    const isRol =await CenterModel.findOne(rolName);
 
     if(isRol) throw new Error('El rol ya existe');
   
-    const creadtedRol = await RolModel.create(rolName);
+    const creadtedRol = await CenterModel.create(rolName);
 
     return creadtedRol
   } catch (error) {
