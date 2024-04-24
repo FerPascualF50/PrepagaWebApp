@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import express from 'express';
+import 'dotenv/config';
 
 export const middlewares = express();
 middlewares.use(express.json());
