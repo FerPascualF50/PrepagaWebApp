@@ -1,4 +1,5 @@
 import express from "express";
+import { authMiddleware } from "../utils/middlewares.js";
 import {
   createUserAuthController,
   userValidationController,
@@ -15,4 +16,4 @@ userAuthRouter
   .get("/validate-email/:userId", userValidationController)
   .patch("/password/", forgotPassController)
   .patch("/validate-pass/", passValidationController)
-  .patch("/change-paswword/:id", changePassController);
+  .patch("/change-paswword/:id", authMiddleware, changePassController);
