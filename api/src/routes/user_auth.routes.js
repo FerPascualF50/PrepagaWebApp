@@ -6,7 +6,7 @@ import {
   forgotPassController,
   passValidationController,
   changePassController
-} from "../../controllers/user_auth.controller.js";
+} from "../controllers/user_auth.controller.js";
 
 export const userAuthRouter = express.Router();
 userAuthRouter

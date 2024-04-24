@@ -13,9 +13,13 @@ const InvoiceSchema = mongoose.Schema({
     period:{
       year:{
         type: Number,
+        min: 2023,
+        max: 2999,
       },
       month:{
         type: Number,
+        min: 1,
+        max: 12
       },
     },
     expirationPayment:{
@@ -36,37 +40,16 @@ const InvoiceSchema = mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    clientInfo: {
-      firstName: {
-      type: String,
-      required: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
-    },
-    cellphone: {
-      type: Number,
-      minlength: 10,
-      maxlength: 10,
-    },
-    address: {
-      type: String,
-      minlength: 6,
-      maxlength: 80,
-    },
-      taxId: {
-        type: String,
-        minlength: 11,
-        maxlength: 11,
-      },
-    },
     descriptionInvoice:{
       type: String,
     },
     price: {
       type: Number
     },
+    deleted: {
+      type: Boolean,
+      default: false,
+    }
 });
 
 export const InvoiceModel = mongoose.model("Invoice", InvoiceSchema);

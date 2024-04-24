@@ -47,19 +47,22 @@ export const userValidationService = async (userId, userName) => {
 
 export const userLoginService = async (userName, password) => {
   try {
+    
     UserAuthModel.schema.path("password").select(true);
-    const userAuth = await UserAuthModel.findOne({ userName });
+    const userAuth = await UserAuthModel.findOne({ userName }).select('userName');
     if ( !userAuth ) throw new Error("Nombre de usuario o contraseña incorrectos");
-    const userInfo = await UserModel.findById(userAuth._id).select('userValidated');
+    const userInfo = await UserModel.findOne({ _id: userAuth._id }).select('rol userValidated firstName');
     if (!userInfo.userValidated) throw new Error ('Revisa tu e-mail y valida tu cuenta')
     const passwordMatch = await bcrypt.compare(password, userAuth.password);
     if (!passwordMatch) throw new Error("Credenciales incorrectas");
     UserAuthModel.schema.path("password").select(false);
     const payload = {
-    _id: userAuth._id,
+    id: userAuth._id,
     userName: userAuth.userName,
     rol: userInfo.rol,
+    firstName: userInfo.firstName
     };
+    console.log(payload)
     const access_token = jwt.sign(payload, process.env.JWT_SECRET);
     return access_token;
   } catch (error) {

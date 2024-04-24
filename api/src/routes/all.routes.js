@@ -3,7 +3,7 @@ import {
   //  getAllRoles, RolById, 
   registerAll
   // ,  updateRol, deleteRol
- } from "../../controllers/all.controller.js";
+ } from "../controllers/all.controller.js";
 
 export const allRouter = express.Router();
 
