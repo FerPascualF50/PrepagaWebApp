@@ -1,0 +1,8 @@
+export const fieldsByController = {
+  createUserAuthController: ['userName', 'password', 'firstName', 'lastName'],
+  userValidationController: ['userId', 'userName'],
+  userLoginController: ['userName', 'password'],
+  forgotPassController: ['userName'],
+  passValidationController: ['userName', 'password', 'code'],
+  changePassController: ['oldPass', 'newPass'],
+};

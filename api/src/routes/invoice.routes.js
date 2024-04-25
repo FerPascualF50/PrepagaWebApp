@@ -8,6 +8,6 @@ import {
 
 export const invoiceRouter = express.Router();
 invoiceRouter
-  .get("/by-user/:id", getInvoicesByUserController)
-  .post("/", rolAccessMiddleware(['admin', 'manager']), createInvoicebyClientController)
-  .patch("/delete/:id", rolAccessMiddleware(['admin', 'manager']), deleteInvoiceController);
+  .get("/by-user/:id", rolAccessMiddleware(['user', 'admin']), getInvoicesByUserController)
+  .post("/", rolAccessMiddleware(['admin']), createInvoicebyClientController)
+  .patch("/delete/:id", rolAccessMiddleware(['admin']), deleteInvoiceController);

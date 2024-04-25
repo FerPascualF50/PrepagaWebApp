@@ -30,10 +30,10 @@ export const rolAccessMiddleware = (allowedRoles) => {
    return async (req, res, next) => {
      try {
        const { rol } = req.user;
-       if (!allowedRoles.includes(rol)) throw new Error('Acceso denegado');
+       if (!allowedRoles.includes(rol)) throw new Error(`Acceso denegado. El rol: ${rol} no tiene acceso a esta acción.`);
        next();
      } catch (error) {
-       return res.status(500).json({ success: false, error: 'Error al verificar el rol del usuario. Comunicate con el administrador' });
+      res.json({ success: false, response: error.message });
      }
    };
  };

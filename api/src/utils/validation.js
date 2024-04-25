@@ -3,11 +3,10 @@ export function hasEmptyField(object) {
     return data.some((item) => (!item.trim().length));
 };
 
-export function hasAllFields(object) {
-  const expectedItems = ['userName', 'password', 'firstName', 'lastName'];
+export function hasAllFields(object, expectedFields) {
   const data = Object.keys(object);
-  const allExpectedPresent = expectedItems.every(item => data.includes(item));
-  const noExtraKeys = data.every(item => expectedItems.includes(item));
+  const allExpectedPresent = expectedFields.every(item => data.includes(item));
+  const noExtraKeys = data.every(item => expectedFields.includes(item));
   return allExpectedPresent && noExtraKeys;
 };
 
@@ -17,4 +16,4 @@ export function hasStringValue(object) {
 };
 export function isEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+};

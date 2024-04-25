@@ -9,7 +9,8 @@ const UserAuthSchema = mongoose.Schema({
     password: {
       type: String,
       required: true,
-      select: false
+      select: false,
+      minlength: 8,
     },
     codeToChagePass: {
       type: String,

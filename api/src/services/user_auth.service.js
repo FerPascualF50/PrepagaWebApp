@@ -47,7 +47,6 @@ export const userValidationService = async (userId, userName) => {
 
 export const userLoginService = async (userName, password) => {
   try {
-    
     UserAuthModel.schema.path("password").select(true);
     const userAuth = await UserAuthModel.findOne({ userName }).select('userName');
     if ( !userAuth ) throw new Error("Nombre de usuario o contraseña incorrectos");
@@ -62,7 +61,6 @@ export const userLoginService = async (userName, password) => {
     rol: userInfo.rol,
     firstName: userInfo.firstName
     };
-    console.log(payload)
     const access_token = jwt.sign(payload, process.env.JWT_SECRET);
     return access_token;
   } catch (error) {

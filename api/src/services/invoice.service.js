@@ -4,7 +4,7 @@ import { UserModel } from "../database/models/user.schema.js";
 export const createInvoiceByClientService = async (InvoiceData) => {
   try {
     const { year, month, client, descriptionInvoice, price } = InvoiceData;
-    const existUser = await UserModel.findOne({ _id: client, rol: "client", deletedUser: false }).select('_id');
+    const existUser = await UserModel.findOne({ _id: client, deletedUser: false }).select('_id');
     if (!existUser) throw new Error("El usuario no es cliente");
     const existInvoice = await InvoiceModel.countDocuments({
       client: client,
