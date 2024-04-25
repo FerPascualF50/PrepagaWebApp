@@ -7,5 +7,5 @@ export const userRouter = express.Router();
 userRouter
   .get("/", rolAccessMiddleware(['admin']), getAllUsersController)
   .get("/:id", rolAccessMiddleware(['admin']), getUserByIdController)
-  .patch("/:id", rolAccessMiddleware(['user']),updateUserToClientControler)
-  .patch("/delete/:id", rolAccessMiddleware(['user']), deleteUserController);
+  .patch("/", rolAccessMiddleware(['user']),updateUserToClientControler)
+  .delete("/", rolAccessMiddleware(['user']), deleteUserController);

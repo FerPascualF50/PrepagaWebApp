@@ -34,10 +34,6 @@ const UserSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    deletedUser:{
-      type: Boolean,
-      default: false,
-    },
     imageProfile: {
       type: String,
       default:
@@ -50,10 +46,6 @@ const UserSchema = mongoose.Schema(
     plan: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plan",
-    },
-    invoices: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Invoice",
     },
   },
   { timestamps: true }
