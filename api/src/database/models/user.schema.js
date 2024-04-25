@@ -1,10 +1,17 @@
 import mongoose from "mongoose";
 
-const UserSchema = mongoose.Schema(
-  {
-    _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "UserAuth",
+const UserSchema = mongoose.Schema({
+    userName: {
+      type: String,
+      required: true,
+      unique: true,
+      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    },
+    password: {
+      type: String,
+      required: true,
+      select: false,
+      minlength: 8,
     },
     firstName: {
       type: String,
@@ -13,6 +20,10 @@ const UserSchema = mongoose.Schema(
     lastName: {
       type: String,
       required: true,
+    },
+    plan: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Plan",
     },
     cellphone: {
       type: Number,
@@ -43,9 +54,9 @@ const UserSchema = mongoose.Schema(
       type: String,
       unique: true,
     },
-    plan: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Plan",
+    codeToChagePass: {
+      type: String,
+      default:'',
     },
   },
   { timestamps: true }
