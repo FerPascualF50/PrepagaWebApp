@@ -34,7 +34,6 @@ export const userValidationService = async (userId, userName) => {
     const confirmationCodeMatch = await bcrypt.compare(userName, userInfo.confirmationCode);
     if (!confirmationCodeMatch) throw new Error('Ups... algo pasó');
     userInfo.userValidated = true;
-    userInfo.confirmationCode = '';
     await userInfo.save();
     return true;
   } catch (error) {
