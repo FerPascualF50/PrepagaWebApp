@@ -1,5 +1,5 @@
 import express from "express";
-import { rolAccessMiddleware } from "../utils/middlewares.js";
+import { unauthorizedMiddleware } from "../utils/middlewares.js";
 import {
   getInvoicesByUserController,
   deleteInvoiceController,
@@ -8,6 +8,6 @@ import {
 
 export const invoiceRouter = express.Router();
 invoiceRouter
-  .get("/by-user/:id", rolAccessMiddleware(['user', 'admin']), getInvoicesByUserController)
-  .post("/", rolAccessMiddleware(['admin']), createInvoicebyClientController)
-  .patch("/delete/:id", rolAccessMiddleware(['admin']), deleteInvoiceController);
+  .get("/by-user/:id", getInvoicesByUserController)
+  .post("/", unauthorizedMiddleware, createInvoicebyClientController)
+  .patch("/delete/:id", unauthorizedMiddleware, deleteInvoiceController);

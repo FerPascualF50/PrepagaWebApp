@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { UserModel } from "../database/models/user.schema.js";
 import { PlanModel } from "../database/models/plan.schema.js";
 import { InvoiceModel } from "../database/models/invoice.schema.js";
+import { RolModel } from "../database/models/rol.schema.js";
 
 export const updateUserService = async (id, { firstName, lastName, cellphone, address, taxId, plan }) => {
   try {
@@ -56,7 +57,7 @@ export const deleteUserService = async (id) => {
   };
 };
 
-export const changePassService = async (id, oldPass, newPass) => {
+export const updatePassService = async (id, oldPass, newPass) => {
   try {
      UserModel.schema.path("password").select(true);
      const userInfo = await UserModel.findById(id);
@@ -71,4 +72,18 @@ export const changePassService = async (id, oldPass, newPass) => {
   } catch (error) {
    throw error;
   } 
+ };
+
+ export const updateRolService = async (id, userId, rol) => {
+  try {
+    const userAdmin =  await UserModel.findById(id).select('rol')
+    if(!userAdmin) throw new Error('Usuario admin inexistente');
+    const userInfo = await UserModel.findById(userId).select('rol userValidated');
+    if(!userInfo || !userInfo.userValidated) throw new Error('Usuario inexistente o no validado');
+    if(userInfo.rol === 'admin') throw new Error('Usuario que intentas modificar ya es admin');
+    userInfo.rol = rol;
+    await userInfo.save()
+  } catch (error) {
+   throw error;
+  }
  };

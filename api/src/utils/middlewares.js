@@ -26,16 +26,14 @@ export const authMiddleware = (req, res, next) => {
    }
 };
 
-export const rolAccessMiddleware = (allowedRoles) => {
-   return async (req, res, next) => {
-     try {
-       const { rol } = req.user;
-       if (!allowedRoles.includes(rol)) throw new Error(`Acceso denegado. El rol: ${rol} no tiene acceso a esta acción.`);
-       next();
-     } catch (error) {
-      res.json({ success: false, response: error.message });
-     }
-   };
- };
-
-
+export const unauthorizedMiddleware = async (req, res, next) => {
+  try {
+    const { rol } = req.user;
+    if (rol !== "admin") {
+      throw new Error(`Acceso no autorizado. El rol: ${rol} no tiene acceso.`);
+    }
+    next();
+  } catch (error) {
+    res.json({ success: false, response: error.message });
+  }
+};

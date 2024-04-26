@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { getAllUsersService, getUserByIdService, updateUserService, deleteUserService, changePassService } from "../services/user.service.js";
-import { hasEmptyField, hasAllFields, hasStringValue } from "../utils/validation.js";
+import { getAllUsersService, getUserByIdService, updateUserService, deleteUserService, updatePassService, updateRolService } from "../services/user.service.js";
+import { hasEmptyField, hasAllFields, hasStringValue, hasPassFormat } from "../utils/validation.js";
 import { fieldsByController } from "../utils/fieldsByController.js"
 
 export const updateUserToClientControler = async (req, res) => {
@@ -45,17 +45,35 @@ export const deleteUserController = async (req, res) => {
   }
 };
 
-export const changePassController = async (req, res) => {
+export const updatePassController = async (req, res) => {
   try {
     const { id } = req.user;
     const { oldPass, newPass } = req.body;
     if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID proporcionado no tiene el formato válido');
-    if (!hasAllFields(req.body, fieldsByController.changePassController)
+    if (!hasAllFields(req.body, fieldsByController.updatePassController)
       || hasEmptyField(req.body, req.user)
-      || (oldPass.length && newPass.length) < 8
-  ) throw new Error('Ups... Algunos datos incorrectos');
-    const success = await changePassService(id, oldPass, newPass);
-    return res.status(200).json({ success: true, message: 'La contraseña se modificó correctamente' });
+      || !hasPassFormat(oldPass)
+      || !hasPassFormat(newPass)
+    ) throw new Error('Ups... Algunos datos incorrectos');
+    const success = await updatePassService(id, oldPass, newPass);
+    return res.status(200).json({ success: true, message: 'Contraseña actualizada correctamente' });
+  } catch (error) {
+    res.json({ success: false, error: error.message });
+  }
+};
+
+export const updateRolController = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const { userId, rol } = req.body
+    if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID proporcionado no tiene el formato válido');
+    if (!mongoose.Types.ObjectId.isValid(userId)) throw new Error('El ID proporcionado no tiene el formato válido');
+    if (!hasAllFields(req.body, fieldsByController.updateRolController)
+      || hasEmptyField(req.body)
+      || rol !== 'admin'
+    ) throw new Error('Ups... Algunos datos incorrectos');
+    const success = await updateRolService(id, userId, rol)
+    res.status(201).json({succsess: true, message: 'Rol actualizado correctamente'})
   } catch (error) {
     res.json({ success: false, error: error.message });
   }
