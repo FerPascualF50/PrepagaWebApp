@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
-import { getAllUsersService, getUserByIdService, updateUserService, deleteUserService } from "../services/user.service.js";
-import { hasEmptyField, hasStringValue } from "../utils/validation.js";
+import { getAllUsersService, getUserByIdService, updateUserService, deleteUserService, changePassService } from "../services/user.service.js";
+import { hasEmptyField, hasAllFields, hasStringValue } from "../utils/validation.js";
+import { fieldsByController } from "../utils/fieldsByController.js"
 
 export const updateUserToClientControler = async (req, res) => {
   try {
@@ -41,5 +42,21 @@ export const deleteUserController = async (req, res) => {
     return res.status(201).send({ success: true, response: deletedUser, message: "Usuario eliminado correctamente"});
   } catch (error) {
     res.json({ success: false, error: error.message, message: 'Ups... El usuario no pudo ser eliminado correctamente'});
+  }
+};
+
+export const changePassController = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const { oldPass, newPass } = req.body;
+    if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID proporcionado no tiene el formato válido');
+    if (!hasAllFields(req.body, fieldsByController.changePassController)
+      || hasEmptyField(req.body, req.user)
+      || (oldPass.length && newPass.length) < 8
+  ) throw new Error('Ups... Algunos datos incorrectos');
+    const success = await changePassService(id, oldPass, newPass);
+    return res.status(200).json({ success: true, message: 'La contraseña se modificó correctamente' });
+  } catch (error) {
+    res.json({ success: false, error: error.message });
   }
 };

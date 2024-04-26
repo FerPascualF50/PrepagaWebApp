@@ -1,7 +1,7 @@
+import bcrypt from "bcrypt";
 import { UserModel } from "../database/models/user.schema.js";
 import { PlanModel } from "../database/models/plan.schema.js";
 import { InvoiceModel } from "../database/models/invoice.schema.js";
-import { UserAuthModel } from "../database/models/user_auth.schema.js";
 
 export const updateUserService = async (id, { firstName, lastName, cellphone, address, taxId, plan }) => {
   try {
@@ -45,9 +45,8 @@ export const deleteUserService = async (id) => {
     });
     if (pendingInvoices.length > 0) throw new Error('El usuario tiene facturas pendientes de pago');
     const deletedUser = await UserModel.findByIdAndDelete(id);
-    const deletedUserAuth = await UserAuthModel.findByIdAndDelete(id);
     const payload = {
-      id: deletedUserAuth._id,
+      id: deletedUser._id,
       firstName: deletedUser.firstName,
       lastName: deletedUser.lastName,
     };
@@ -56,3 +55,20 @@ export const deleteUserService = async (id) => {
     throw error;
   };
 };
+
+export const changePassService = async (id, oldPass, newPass) => {
+  try {
+     UserModel.schema.path("password").select(true);
+     const userInfo = await UserModel.findById(id);
+     if(!userInfo) throw new Error('Usuario inexistente')
+     const isOldPass = await bcrypt.compare(oldPass, userInfo.password);
+     if (!isOldPass) throw new Error('Ups... algo pasó');
+     const hashedPassword = await bcrypt.hash(newPass, 10);
+     userInfo.password = hashedPassword
+     await userInfo.save();
+     UserModel.schema.path("password").select(false);
+     return true;
+  } catch (error) {
+   throw error;
+  } 
+ };

@@ -1,19 +1,16 @@
 import express from "express";
-import { authMiddleware } from "../utils/middlewares.js";
 import {
-  createUserAuthController,
+  createUserController,
   userValidationController,
-  userLoginController,
+  loginController,
   forgotPassController,
   passValidationController,
-  changePassController
 } from "../controllers/user_auth.controller.js";
 
 export const userAuthRouter = express.Router();
 userAuthRouter
-  .post("/signup", createUserAuthController)
-  .post("/login", userLoginController)
+  .post("/signup", createUserController)
+  .post("/login", loginController)
   .get("/validate-email/:userId", userValidationController)
-  .patch("/password/", forgotPassController)
   .patch("/validate-pass/", passValidationController)
-  .patch("/change-paswword/:id", authMiddleware, changePassController);
+  .patch("/password/", forgotPassController);

@@ -1,6 +1,6 @@
 export function hasEmptyField(object) {
-    const data = Object.values(object);
-    return data.some((item) => (!item.trim().length));
+  const data = Object.values(object);
+  return data.some((item) => (!item.trim().length));
 };
 
 export function hasAllFields(object, expectedFields) {
@@ -16,4 +16,20 @@ export function hasStringValue(object) {
 };
 export function isEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+export function hasOnlyLetters(object) {
+  const data = Object.values(object);
+  return data.every((item) => {
+    const trimmedItem = item.trim();
+    return trimmedItem && isValid(trimmedItem);
+  });
+  function isValid(item) {
+    const allowedChars = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ';
+    return [...item].every(char => allowedChars.includes(char));
+  };
+};
+
+export function hasPassFormat(password) {
+  return password.trim().length >= 8 && /[0-9]/.test(password.trim());
 };

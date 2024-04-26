@@ -1,17 +1,18 @@
 import mongoose from "mongoose";
-import { createUserAuthService, userValidationService, userLoginService, forgotPassService, passValidationService, changePassService } from "../services/user_auth.service.js";
-import { hasEmptyField, hasAllFields, isEmail } from "../utils/validation.js";
+import { createUserService, userValidationService, loginService, forgotPassService, passValidationService } from "../services/user_auth.service.js";
+import { hasEmptyField, hasAllFields, isEmail, hasOnlyLetters, hasPassFormat } from "../utils/validation.js";
 import { fieldsByController } from '../utils/fieldsByController.js';
 
-export const createUserAuthController = async (req, res) => {
+export const createUserController = async (req, res) => {
   try {
     const { userName, password, firstName, lastName } = req.body;
     if ((!hasAllFields(req.body, fieldsByController.createUserAuthController))
       || (hasEmptyField(req.body))
       || (!isEmail(userName))
-      || (password.length < 8)
+      || (!hasOnlyLetters({firstName, lastName}))
+      || (!hasPassFormat(password))
     ) throw new Error('Ups...hay datos incorrectos');
-    const { id, userNameCreated } = await createUserAuthService({ userName, password, firstName, lastName });
+    const { id, userNameCreated } = await createUserService({ userName, password, firstName, lastName });
     return res.status(201).json({ success: true, response: { id, userName: userNameCreated }, message: 'Usuario creado con éxito' });
   } catch (error) {
     res.json({ success: false, error: error.message });
@@ -35,16 +36,16 @@ export const userValidationController = async (req, res) => {
   }
 };
 
-export const userLoginController = async (req, res) => {
+export const loginController = async (req, res) => {
   try {
     const { userName, password } = req.body;
     if (!userName || !password) throw new Error('Usuario y contraseña son obligatorios');
-    if (!hasAllFields(req.body, fieldsByController.userLoginController)
+    if (!hasAllFields(req.body, fieldsByController.loginController)
       || hasEmptyField(req.body)
       || !isEmail(userName)
-      || password.length < 8
+      || !hasPassFormat(password)
   ) throw new Error('Ups... Algunos datos incorrectos');
-    const access_token = await userLoginService(userName, password);
+    const access_token = await loginService(userName, password);
     return res.status(200).json({ success: true, message: 'Inicio de sesión exitoso', access_token });
   } catch (error) {
     res.json({ success: false, message: 'El inicio de sesión no pudo ser completado', error: error.message });
@@ -54,10 +55,10 @@ export const userLoginController = async (req, res) => {
 export const forgotPassController = async (req, res) => {
   try {
     const { userName } = req.body;
-    if (hasEmptyField(req.body)
-    || hasAllFields(req.body, fieldsByController.forgotPassController)
+    if (hasEmptyField(userName)
+    || !hasAllFields(req.body, fieldsByController.forgotPassController)
     || !isEmail(userName)
-  ) throw new Error('Tu e-mail es obligatorio y válido');
+  ) throw new Error('Tu e-mail es obligatorio debe ser un formato válido');
     const { email } = await forgotPassService(userName);
     return res.status(200).json({ success: true, response: `Se envio un e-maail a ${userName} para confirmar tu password` });
   } catch (error) {
@@ -71,28 +72,11 @@ export const passValidationController = async (req, res) => {
     if (!hasAllFields(req.body, fieldsByController.passValidationController)
       || hasEmptyField(req.body)
       || !isEmail(userName)
-      || password.length < 8
+      || !hasPassFormat(password)
       || !code
   ) throw new Error('Ups... Algunos datos incorrectos');
     const success = await passValidationService(userName, password, code);
     return  res.status(200).json({ success: true, message: 'La contraseña se modificó correctamente' });
-  } catch (error) {
-    res.json({ success: false, error: error.message });
-  }
-};
-
-export const changePassController = async (req, res) => {
-  try {
-    const { id, userName } = req.user;
-    const { oldPass, newPass } = req.body;
-    if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID proporcionado no tiene el formato válido');
-    if (!hasAllFields(req.body, fieldsByController.changePassController)
-      || hasEmptyField(req.body, req.user)
-      || !isEmail(userName)
-      || (oldPass.length && newPass.length) < 8
-  ) throw new Error('Ups... Algunos datos incorrectos');
-    const success = await changePassService(userName, oldPass, newPass);
-    return res.status(200).json({ success: true, message: 'La contraseña se modificó correctamente' });
   } catch (error) {
     res.json({ success: false, error: error.message });
   }
