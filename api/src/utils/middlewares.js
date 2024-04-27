@@ -16,6 +16,7 @@ middlewares.use((err, req, res, next) => {
 
 export const authMiddleware = (req, res, next) => {
    try {
+      if (!req.headers.authorization) throw new Error('Token inexistente');
       const accsess_token = req.headers.authorization.split(" ").pop();
       if (!accsess_token) throw new Error('Token inexistente');
       const user = jwt.verify(accsess_token, process.env.JWT_SECRET);
