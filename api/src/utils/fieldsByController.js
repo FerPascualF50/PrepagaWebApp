@@ -5,5 +5,6 @@ export const fieldsByController = {
   forgotPassController: ['userName'],
   passValidationController: ['userName', 'password', 'code'],
   updatePassController: ['oldPass', 'newPass'],
-  updateRolController: ['userId', 'rol']
+  updateRolController: ['userId', 'rol'],
+  updateEngageUserControler: ['firstName', 'lastName', 'cellphone', 'address', 'taxId', 'plan']
 };

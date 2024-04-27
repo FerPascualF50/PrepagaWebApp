@@ -2,15 +2,14 @@ import bcrypt from "bcrypt";
 import { UserModel } from "../database/models/user.schema.js";
 import { PlanModel } from "../database/models/plan.schema.js";
 import { InvoiceModel } from "../database/models/invoice.schema.js";
-import { RolModel } from "../database/models/rol.schema.js";
 
 export const updateUserService = async (id, { firstName, lastName, cellphone, address, taxId, plan }) => {
   try {
     const isPlan = await PlanModel.findById(plan);
     const isValidUser = await UserModel.findOne({ _id: id, userValidated: true }).select('userValidated -_id');
     if (!isValidUser) throw new Error('Revisa tu e-mail y valida tu cuenta')
-    if (!plan) throw new Error('Plan inexistente');
-    const updatedUser = await UserModel.findByIdAndUpdate(id, { firstName, lastName, cellphone, address, taxId, plan: isPlan._id }, { new: true });
+    if (!isPlan) throw new Error('Plan inexistente');
+    const updatedUser = await UserModel.findByIdAndUpdate(id, { firstName, lastName, cellphone, address, taxId, plan }, { new: true});
     return updatedUser;
   } catch (error) {
     throw error;

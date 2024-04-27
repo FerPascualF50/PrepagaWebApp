@@ -1,16 +1,19 @@
 import mongoose from "mongoose";
 import { getAllUsersService, getUserByIdService, updateUserService, deleteUserService, updatePassService, updateRolService } from "../services/user.service.js";
-import { hasEmptyField, hasAllFields, hasStringValue, hasPassFormat } from "../utils/validation.js";
+import { hasEmptyField, hasAllFields, hasStringValue, hasPassFormat, hasOnlyLetters } from "../utils/validation.js";
 import { fieldsByController } from "../utils/fieldsByController.js"
 
-export const updateUserToClientControler = async (req, res) => {
+export const updateUserControler = async (req, res) => {
   try {
-    const { id } = req.user;
+    const id = req.user.rol === 'admin' ? req.params.id : req.user.id;
     const { firstName, lastName, cellphone, address, taxId, plan } = req.body;
-    if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID proporcionado no tiene el formato válido');
+    if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID del ususario proporcionado no tiene el formato válido');
+    if (!mongoose.Types.ObjectId.isValid(plan)) throw new Error('El ID del plan proporcionado no tiene el formato válido');
     if (hasEmptyField(id, firstName, lastName, address, plan)) throw new Error('Falta uno o más campos requeridos');
+    if (!hasOnlyLetters({firstName, lastName})) throw new Error('Los datos deben ser solo letras');
     if (hasStringValue({cellphone, taxId}))  throw new Error('El campo celular y CUIT deben ser numeros');
     if (cellphone.toString().length != 10 || taxId.toString().length != 11) throw new Error('El campo celular o CUIT no tienen la logitud correcta');
+    if (!hasAllFields(req.body, fieldsByController.updateEngageUserControler)) throw new Error('Ups... algo falló');
     const updateUserToClient = await updateUserService(id, { firstName, lastName, cellphone, address, taxId, plan });
     return res.status(201).send({ success: true, response: updateUserToClient, message: "Usuario actualizado correctamente" });
   } catch (error) {
@@ -36,7 +39,7 @@ export const getAllUsersController = async (req, res) => {
 
 export const deleteUserController = async (req, res) => {
   try {
-    const { id } = req.user ;
+    const id = req.user.rol === 'admin' ? req.params.id : req.user.id;
     if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID proporcionado no tiene el formato válido');
     const deletedUser = await deleteUserService(id);
     return res.status(201).send({ success: true, response: deletedUser, message: "Usuario eliminado correctamente"});
