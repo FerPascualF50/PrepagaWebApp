@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { getAllUsersService, getUserByIdService, updateUserService, deleteUserService, updatePassService, updateRolService } from "../services/user.service.js";
+import { getAllUsersService, getUserByIdService, updateUserService, deleteUserService, updatePassService, updateRolService, createUsersToAdminsService } from "../services/user.service.js";
 import { hasEmptyField, hasAllFields, hasStringValue, hasPassFormat, hasOnlyLetters } from "../utils/validation.js";
 import { fieldsByController } from "../utils/fieldsByController.js"
 
@@ -77,6 +77,22 @@ export const updateRolController = async (req, res) => {
     ) throw new Error('Ups... Algunos datos incorrectos');
     const success = await updateRolService(id, userId, rol)
     res.status(201).json({succsess: true, message: 'Rol actualizado correctamente'})
+  } catch (error) {
+    res.json({ success: false, error: error.message });
+  }
+};
+
+export const createUsersToAdminsController = async (req, res) => {
+  try {
+    const { userName, password, firstName, lastName, plan, cellphone, address, taxId } = req.body;
+    if (!mongoose.Types.ObjectId.isValid(plan)) throw new Error('El ID del plan proporcionado no tiene el formato válido');
+    if (hasEmptyField(firstName, lastName, address, cellphone, plan, cellphone, address, taxId)) throw new Error('Falta uno o más campos requeridos');
+    if (!hasOnlyLetters({firstName, lastName})) throw new Error('Los datos deben ser solo letras');
+    if (hasStringValue({cellphone, taxId}))  throw new Error('El campo celular y CUIT deben ser numeros');
+    if (cellphone.toString().length != 10 || taxId.toString().length != 11) throw new Error('El campo celular o CUIT no tienen la logitud correcta');
+    if (!hasAllFields(req.body, fieldsByController.createUsersToAdminsController)) throw new Error('Ups... algo falló');
+    const userCreated = await createUsersToAdminsService({ userName, password, firstName, lastName, plan, cellphone, address, taxId });
+    return res.status(201).json({ success: true, response: userCreated, message: 'Usuario creado con éxito' });
   } catch (error) {
     res.json({ success: false, error: error.message });
   }

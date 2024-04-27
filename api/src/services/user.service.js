@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { UserModel } from "../database/models/user.schema.js";
 import { PlanModel } from "../database/models/plan.schema.js";
 import { InvoiceModel } from "../database/models/invoice.schema.js";
+import { forgotPassService } from "./user_auth.service.js"
 
 export const updateUserService = async (id, { firstName, lastName, cellphone, address, taxId, plan }) => {
   try {
@@ -86,3 +87,31 @@ export const updatePassService = async (id, oldPass, newPass) => {
    throw error;
   }
  };
+
+ export const createUsersToAdminsService = async (userData) => {
+  try {
+    const { userName, password, firstName, lastName, plan, cellphone, address, taxId } = userData;
+    const isUser = await UserModel.findOne({ userName });
+    if (isUser) throw new Error('El usuario ya se encuentra registrado');
+    const validateCode = (Math.floor(Math.random() * 900000) + 100000).toString();
+    const hashedPassword = await bcrypt.hash(password + validateCode , 10);
+    const hashedConfirmationCode = await bcrypt.hash(userName, 10);
+    const newUser = new UserModel({
+      userName,
+      password: hashedPassword,
+      firstName,
+      lastName,
+      confirmationCode: hashedConfirmationCode,
+      plan,
+      cellphone,
+      address,
+      taxId,
+      userValidated: true
+    });
+    const createdUser = await newUser.save();
+    await forgotPassService(userName)
+    return createdUser.userName;
+  } catch (error) {
+    throw error;
+  }
+}; 
