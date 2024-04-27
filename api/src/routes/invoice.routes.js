@@ -4,10 +4,12 @@ import {
   getInvoicesByUserController,
   deleteInvoiceController,
   createInvoicebyClientController,
+  getInvoicesController
 } from "../controllers/invoice.controller.js";
 
 export const invoiceRouter = express.Router();
 invoiceRouter
-  .get("/by-user/:id", getInvoicesByUserController)
+  .get("/:id", getInvoicesByUserController)
+  .get("/", unauthorizedMiddleware, getInvoicesController )
   .post("/", unauthorizedMiddleware, createInvoicebyClientController)
   .patch("/delete/:id", unauthorizedMiddleware, deleteInvoiceController);

@@ -45,8 +45,23 @@ export const getInvoicesByUserService = async (idClient, page = 2) => { //PAGE p
       .sort({ "period.year": -1, "period.month": -1 })
       .skip(skip)
       .limit(perPage);
-    if(!invoicesbyUser) throw new Error('Aun no tiene comprobantes');
+    if(!invoicesbyUser ||invoicesbyUser.length === 0) throw new Error('Aun no tiene comprobantes');
     return invoicesbyUser;
+  } catch (error) {
+  throw error;
+  }
+};
+
+export const getInvoicesService = async (page = 2) => { //PAGE pasr por parametro del front
+  try {
+    const perPage = 12;
+    const skip = (page - 1) * perPage;
+    const invoices = await InvoiceModel.find({ deleted: false })
+      .sort({ "period.year": -1, "period.month": -1 })
+      .skip(skip)
+      .limit(perPage);
+    if(!invoices ||invoices.length === 0) throw new Error('Aun no tiene comprobantes');
+    return invoices;
   } catch (error) {
   throw error;
   }

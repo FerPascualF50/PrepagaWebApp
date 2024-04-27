@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { hasEmptyField, hasStringValue } from "../utils/validation.js";
-import { createInvoiceByClientService, deleteInvoiceService, getInvoicesByUserService } from "../services/invoice.service.js";
+import { createInvoiceByClientService, deleteInvoiceService, getInvoicesByUserService, getInvoicesService } from "../services/invoice.service.js";
 
 export const createInvoicebyClientController = async (req, res) => {
   try {
@@ -31,12 +31,17 @@ export const deleteInvoiceController = async (req, res) => {
 
 export const getInvoicesByUserController = async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.user.rol === 'admin' ? req.params.id : req.user.id;
     if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID proporcionado no tiene el formato válido');
     if (hasEmptyField(id)) throw new Error('Ups...parece que los datos no son correctos');
-    const allInvoiceByUser = await getInvoicesByUserService(id);
-    return res.status(200).json({succsess: true, responde: allInvoiceByUser});
+    const invoicesByUser = await getInvoicesByUserService(id);
+    return res.status(200).json({succsess: true, responde: invoicesByUser});
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
+};
+
+export const getInvoicesController = async (req, res) => {
+    const invoices = await getInvoicesService({});
+    return res.status(200).send({ success: true, response: invoices });
 };
