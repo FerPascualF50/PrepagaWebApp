@@ -40,7 +40,7 @@ export const confirmEmailTemplate =
 </head>
 <body class="container">
   <div>
-    <h2>¡Gracias por registrarte en Salud <span class="plus">+ </span>!</h2>
+    <h2>¡ Gracias por registrarte en Vita <span class="plus">+ </span>!</h2>
     <p>Para confirmar tu cuenta, haz clic en el siguiente botón:</p>
     <a href="{{validationLink}}" class="button">Confirmar Cuenta</a>
   </div>

@@ -40,7 +40,7 @@ export const confirmEmailPassTemplate =
 </head>
 <body class="container">
   <div>
-    <h2>¡ Solicitaste cambio de contraseña en Salud <span class="plus">+ </span>!</h2>
+    <h2>¡ Solicitaste cambio de contraseña en Vita <span class="plus">+ </span>!</h2>
     <p>Para confirmar tu nueva clave, ingresa el siguiente código:</p>
     <p style="font-size: 32px; color: #ff5862; font-weight: bold;">{{validateCode}}</p>
   </div>
