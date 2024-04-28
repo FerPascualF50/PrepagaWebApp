@@ -5,12 +5,29 @@ import { InvoiceModel } from "../database/models/invoice.schema.js";
 import { UserModel } from "../database/models/user.schema.js";
 import { PlanModel } from '../database/models/plan.schema.js';
 
-export const getPDFInvoiceService = async (id) => { 
+export const getInvoicesPDFService = async (id, res) => { 
+  try {
+    const __dirname = path.resolve();
+    const invoicesDir = path.join(__dirname, `/src/utils/invoices_PDF/`);
+    const files = await fs.promises.readdir(invoicesDir);
+    const invoiceFileName = files.find(file => file.startsWith(`${id}.pdf`));
+    if (!invoiceFileName) throw new Error('Factura no encontrada');
+    const filePath = path.join(invoicesDir, invoiceFileName);
+    const fileStream = fs.createReadStream(filePath);
+    fileStream.pipe(res);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createPDFInvoiceService = async (id) => { 
   try {
     const invoices = await InvoiceModel.findById(id)
     if(!invoices || invoices.length === 0) throw new Error('Aun no tiene comprobantes');
     const user = await UserModel.findById(invoices.client)
+    if(!user) throw new Error('Cliente inexistente');
     const plan = await PlanModel.findById(user.plan)
+    if(!plan) throw new Error('Cliente no posee un plan contratado');
     const __dirname = path.resolve();
     const pdfPath = path.join(__dirname , "/src/utils/invoices_PDF/invoice_template.pdf");
     const existingPdfBytes = fs.readFileSync(pdfPath);
