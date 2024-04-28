@@ -1,4 +1,4 @@
-import express from "express";
+import express from "express.js";
 import mongoose from "./database/db.js";
 import { middlewares } from './utils/middlewares.js';
 import { router }  from "./routes/index.js";
