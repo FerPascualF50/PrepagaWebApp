@@ -1,13 +1,13 @@
 import { InvoiceModel } from "../database/models/invoice.schema.js";
 import { UserModel } from "../database/models/user.schema.js";
 
-export const createInvoiceByClientService = async (InvoiceData) => {
+export const createInvoiceByClientService = async (invoiceData) => {
   try {
-    const { year, month, client, descriptionInvoice, price } = InvoiceData;
-    const existUser = await UserModel.findOne({ _id: client, deletedUser: false }).select('_id');
-    if (!existUser) throw new Error("El usuario no es cliente");
+    const { id, year, month, descriptionInvoice, price } = invoiceData;
+    const isUser = await UserModel.findById(id);
+    if (!isUser) throw new Error("El usuario no es cliente");
     const existInvoice = await InvoiceModel.countDocuments({
-      client: client,
+      client: id,
       "period.year": year,
       "period.month": month,
       deleted: false
@@ -16,7 +16,7 @@ export const createInvoiceByClientService = async (InvoiceData) => {
     const createdInvoice = await InvoiceModel.create({
       number: await InvoiceModel.countDocuments() + 1,
       period: { year: year, month: month },
-      client: client,
+      client: id,
       descriptionInvoice: descriptionInvoice,
       price: price,
     });
