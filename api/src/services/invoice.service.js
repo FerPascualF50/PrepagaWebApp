@@ -10,7 +10,7 @@ export const filterIdsWithoutInvoiceService = async (year, month, ids) => {
         client: clientId,
         "period.year": year,
         "period.month": month,
-        deleted: { $ne: true } // Excluir las facturas marcadas como eliminadas
+        deleted: { $ne: true }
       });
       return existInvoice === 0 ? clientId : null;
     }));
@@ -77,5 +77,25 @@ export const getInvoicesService = async (page = 2) => { //PAGE pasr por parametr
     return invoices;
   } catch (error) {
   throw error;
+  }
+};
+
+export const getClientsByPeriodService = async(year, month) => {
+  try {
+      const clients = await UserModel.find({ userValidated: true, plan: { $exists: true, $ne: null } }).select('_id firstName lastName userName');
+      const invoicesPromises = clients.map(async(client) => {
+      const existInvoice = await InvoiceModel.countDocuments({
+        client: client._id,
+        "period.year": year,
+        "period.month": month,
+        deleted: { $ne: true }
+      });
+      if (existInvoice === 0) return { _id: client._id, firstName: client.firstName, lastName: client.lastName, userName: client.userName }; 
+      return null;
+      });
+      const filteredClients = (await Promise.all(invoicesPromises)).filter(client => client !== null);
+      return filteredClients;
+  } catch (error) {
+      throw error;
   }
 };

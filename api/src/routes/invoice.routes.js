@@ -6,13 +6,15 @@ import {
   deleteInvoiceController,
   createInvoicesController,
   getInvoicesController,
+  getClientsByPeriodController
 } from "../controllers/invoice.controller.js";
 
 export const invoiceRouter = express.Router();
 invoiceRouter
-  .get("/:id", getInvoicesByUserController)
+  .get("/by_users/:id", getInvoicesByUserController)
   .get("/pdf/:id", getInvoicesPDFController)
-  .get("/", unauthorizedMiddleware, getInvoicesController )
+  .get("/clients", unauthorizedMiddleware, getClientsByPeriodController)
+  .get("/all", unauthorizedMiddleware, getInvoicesController )
   .post("/pdf/:id",unauthorizedMiddleware, createPDFInvoiceController)
   .post("/", unauthorizedMiddleware, createInvoicesController)
   .patch("/delete/:id", unauthorizedMiddleware, deleteInvoiceController);
