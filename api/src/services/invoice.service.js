@@ -2,24 +2,34 @@ import { InvoiceModel } from "../database/models/invoice.schema.js";
 import { PlanModel } from "../database/models/plan.schema.js";
 import { UserModel } from "../database/models/user.schema.js";
 
+
+export const filterIdsWithoutInvoiceService = async (year, month, ids) => {
+  try {
+    const filteredIds = await Promise.all(ids.map(async (clientId) => {
+      const existInvoice = await InvoiceModel.countDocuments({
+        client: clientId,
+        "period.year": year,
+        "period.month": month,
+        deleted: { $ne: true } // Excluir las facturas marcadas como eliminadas
+      });
+      return existInvoice === 0 ? clientId : null;
+    }));
+    return filteredIds.filter(clientId => clientId !== null);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const createInvoicesService = async (data) => {
   try {
-    const { invoiceId, year, month } = data;
-    const isUser = await UserModel.findOne({ _id: invoiceId, plan: { $exists: true } }).exec();
+    const { clientId, number, year, month } = data;
+    const isUser = await UserModel.findOne({ _id: clientId, plan: { $exists: true } }).exec();
     if (!isUser) throw new Error("El usuario no es cliente");
     const planData = await PlanModel.findById(isUser.plan).select('name price');
-    const existInvoice = await InvoiceModel.countDocuments({
-      client: invoiceId,
-      "period.year": year,
-      "period.month": month,
-      deleted: false
-    });
-    if (existInvoice > 0) throw new Error("El comprobante ya existe para el usuario");
-    const newInvoiceNumber = await InvoiceModel.countDocuments() + 1;
     const createdInvoice = await InvoiceModel.create({
-      number: newInvoiceNumber,
+      number: number,
       period: { year, month },
-      client: invoiceId,
+      client: clientId,
       descriptionInvoice: planData.name,
       price: planData.price,
     });
