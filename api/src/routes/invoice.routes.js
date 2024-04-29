@@ -4,7 +4,7 @@ import { createPDFInvoiceController, getInvoicesPDFController } from "../control
 import {
   getInvoicesByUserController,
   deleteInvoiceController,
-  createInvoicebyClientController,
+  createInvoicesController,
   getInvoicesController,
 } from "../controllers/invoice.controller.js";
 
@@ -14,5 +14,5 @@ invoiceRouter
   .get("/pdf/:id", getInvoicesPDFController)
   .get("/", unauthorizedMiddleware, getInvoicesController )
   .post("/pdf/:id",unauthorizedMiddleware, createPDFInvoiceController)
-  .post("/:id", unauthorizedMiddleware, createInvoicebyClientController)
+  .post("/", unauthorizedMiddleware, createInvoicesController)
   .patch("/delete/:id", unauthorizedMiddleware, deleteInvoiceController);
