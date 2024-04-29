@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 
 export const sendValidationEmailService = async (userId, userName) => {
   try {
-    const validationLink = `http://localhost:4000/api/auth/validate-email/${userId}?userName=${encodeURIComponent(userName)}`;
+    const validationLink = `http://localhost:4000/api/auths/validate-email/${userId}?userName=${encodeURIComponent(userName)}`;
     const emailBody = confirmEmailTemplate.replace('{{validationLink}}', validationLink);
     await transporter.sendMail({
       from: USER_EMAIL,
