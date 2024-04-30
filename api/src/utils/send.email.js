@@ -55,7 +55,6 @@ export const sendValidationPasswordService = async (userName) => {
   }
 };
 
-
 export const sendEmailPDFService = async (id, userName) => {
   try {
     const __dirname = path.resolve();
