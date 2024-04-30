@@ -1,4 +1,4 @@
-export const confirmEmailPassTemplate =
+export const invoicePDFTemplate =
 
 `<html lang="en">
 <head>
@@ -39,9 +39,9 @@ export const confirmEmailPassTemplate =
 </head>
 <body class="container">
   <div>
-    <h2>¡ Solicitaste cambio de contraseña en Vita <span class="plus">+ </span>!</h2>
-    <p>Para confirmar tu nueva clave, ingresa el siguiente código:</p>
-    <p style="font-size: 32px; color: #ff5862; font-weight: bold;">{{validateCode}}</p>
+    <h2>¡ Te enviamos la nueva factura de Vita <span class="plus"> + </span>!</h2>
+    <p>Muchas gracias por estar siempre juntos... </p>
+    <p style="font-size: 32px; color: #ff5862; font-weight: bold;"></p>
   </div>
 </body>
 </html>`

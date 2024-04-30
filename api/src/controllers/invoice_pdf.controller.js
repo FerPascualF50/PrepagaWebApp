@@ -12,6 +12,17 @@ export const createPDFInvoiceController = async (req, res) =>{
   }
 };
 
+export const createPDFInvoicesController = async (req, res) =>{
+  try {
+    const { id } = req.body; // Recibir información del cuerpo de la solicitud
+    // Llamar al servicio para crear el PDF
+    const invoice = await createPDFInvoiceService({ clientId, number, year, month });
+    return res.status(200).json({ success: true, response: invoice });
+  } catch (error) {
+    res.json({ success: false, error: error.message });
+  }
+};
+
 export const getInvoicesPDFController = async (req, res) => {
   try {
     const { id } = req.params;

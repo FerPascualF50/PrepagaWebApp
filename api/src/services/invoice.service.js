@@ -1,7 +1,7 @@
 import { InvoiceModel } from "../database/models/invoice.schema.js";
 import { PlanModel } from "../database/models/plan.schema.js";
 import { UserModel } from "../database/models/user.schema.js";
-
+import { createPDFInvoiceService} from "../services/invoice_pdf.service.js";
 
 export const filterIdsWithoutInvoiceService = async (year, month, ids) => {
   try {
@@ -33,6 +33,7 @@ export const createInvoicesService = async (data) => {
       descriptionInvoice: planData.name,
       price: planData.price,
     });
+    await createPDFInvoiceService(  createdInvoice._id );
     return createdInvoice;
   } catch (error) {
     throw error;

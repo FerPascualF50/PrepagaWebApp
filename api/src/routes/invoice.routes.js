@@ -1,6 +1,6 @@
 import express from "express";
 import { unauthorizedMiddleware } from "../utils/middlewares.js";
-import { createPDFInvoiceController, getInvoicesPDFController } from "../controllers/invoice_pdf.controller.js"
+import { createPDFInvoiceController, getInvoicesPDFController, createPDFInvoicesController } from "../controllers/invoice_pdf.controller.js"
 import {
   getInvoicesByUserController,
   deleteInvoiceController,
@@ -16,5 +16,6 @@ invoiceRouter
   .get("/clients", unauthorizedMiddleware, getClientsByPeriodController)
   .get("/all", unauthorizedMiddleware, getInvoicesController )
   .post("/pdf/:id",unauthorizedMiddleware, createPDFInvoiceController)
+  .post("/pdf/all", unauthorizedMiddleware, createPDFInvoicesController)
   .post("/", unauthorizedMiddleware, createInvoicesController)
   .patch("/delete/:id", unauthorizedMiddleware, deleteInvoiceController);

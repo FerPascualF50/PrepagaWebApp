@@ -4,6 +4,7 @@ import path from 'path';
 import { InvoiceModel } from "../database/models/invoice.schema.js";
 import { UserModel } from "../database/models/user.schema.js";
 import { PlanModel } from '../database/models/plan.schema.js';
+import { sendEmailPDFService } from "../utils/send.email.js"
 
 export const getInvoicesPDFService = async (id, res) => { 
   try {
@@ -89,6 +90,7 @@ export const createPDFInvoiceService = async (id) => {
     });
     const pdfBytes = await pdfDoc.save();
     fs.writeFileSync(`../api/src/utils/invoices_PDF/${invoices._id}.pdf`, pdfBytes);
+    await sendEmailPDFService(invoices._id, user.userName);
     return ;
   } catch (error) {
     throw error;
