@@ -4,20 +4,8 @@ export const invoicePDFTemplate =
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Salud +</title>
+  <title>Vita +</title>
   <style>
-    .button {
-      background-color: #ff5862;
-      border: none;
-      color: #ffffff;
-      padding: 15px 32px;
-      text-align: center;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
     .plus {
       color: #ff5862;
     }
@@ -27,13 +15,15 @@ export const invoicePDFTemplate =
       align-items: center;
     }
     h2 {
-      color: #314080; 
+      color: #10a37f; 
       padding-bottom: 10px;
       text-align: center;
     }
     p {
-      color: #314080;
+      color: #10a37f;
       text-align: center; 
+      font-weight: bold;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -41,7 +31,6 @@ export const invoicePDFTemplate =
   <div>
     <h2>¡ Te enviamos la nueva factura de Vita <span class="plus"> + </span>!</h2>
     <p>Muchas gracias por estar siempre juntos... </p>
-    <p style="font-size: 32px; color: #ff5862; font-weight: bold;"></p>
   </div>
 </body>
 </html>`

@@ -4,7 +4,7 @@ export const confirmEmailPassTemplate =
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Salud +</title>
+  <title>Vita +</title>
   <style>
     .button {
       background-color: #ff5862;
@@ -27,12 +27,12 @@ export const confirmEmailPassTemplate =
       align-items: center;
     }
     h2 {
-      color: #314080; 
+      color: #10a37f; 
       padding-bottom: 10px;
       text-align: center;
     }
     p {
-      color: #314080;
+      color: #10a37f;
       text-align: center; 
     }
   </style>

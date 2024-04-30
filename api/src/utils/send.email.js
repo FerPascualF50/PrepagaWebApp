@@ -26,7 +26,7 @@ export const sendValidationEmailService = async (userId, userName) => {
     await transporter.sendMail({
       from: USER_EMAIL,
       to: userName,
-      subject: "Valida tu correo en Salud +",
+      subject: "Valida tu correo en Vita +",
       text: `Haz click en el siguiente enlace para validar tu e-mail ${validationLink}`,
       html: emailBody
     });
@@ -44,8 +44,8 @@ export const sendValidationPasswordService = async (userName) => {
     await transporter.sendMail({
       from: USER_EMAIL,
       to: userName,
-      subject: "Tu código para cambiar tu contraseña Salud +",
-      text: `Ingresa tu nuea contraseña en nuestra WEB`,
+      subject: "Tu código para cambiar tu contraseña Vita +",
+      text: `Ingresa tu nueva contraseña en nuestra WEB`,
       html: emailBody
     });
     return hashedConfirmationCode
