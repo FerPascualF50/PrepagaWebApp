@@ -1,8 +1,10 @@
 import jwt from "jsonwebtoken";
 import express from 'express';
+import cors from 'cors'
 import 'dotenv/config';
 
 export const middlewares = express();
+middlewares.use(cors())
 middlewares.use(express.json());
 middlewares.use(express.urlencoded({ extended: true }));
 middlewares.use((err, req, res, next) => {
