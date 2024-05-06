@@ -43,7 +43,7 @@ export const userValidationService = async (userId, userName) => {
 
 export const loginService = async (userName, password) => {
   try {
-    const user = await UserModel.findOne({ userName }).select('userName password rol fisrName userValidated');
+    const user = await UserModel.findOne({ userName }).select('userName password rol firstName userValidated' );
     UserModel.schema.path("password").select(true);
     if ( !user ) throw new Error("Nombre de usuario o contraseña incorrectos");
     if (!user.userValidated) throw new Error ('Revisa tu e-mail y valida tu cuenta')
@@ -57,7 +57,7 @@ export const loginService = async (userName, password) => {
       firstName: user.firstName
     };
     const access_token = jwt.sign(payload, process.env.JWT_SECRET);
-    return access_token;
+    return {userData: payload.firstName, access_token};
   } catch (error) {
     throw error;
   }

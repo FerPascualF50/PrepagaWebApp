@@ -45,8 +45,9 @@ export const loginController = async (req, res) => {
       || !isEmail(userName)
       || !hasPassFormat(password)
   ) throw new Error('Ups... Algunos datos incorrectos');
-    const access_token = await loginService(userName, password);
-    return res.status(200).json({ success: true, message: 'Inicio de sesión exitoso', access_token });
+    const {userData, access_token} = await loginService(userName, password);
+    return res.status(200).json({ success: true, message: 'Inicio de sesión exitoso', userData, access_token });
+
   } catch (error) {
     res.json({ success: false, message: 'El inicio de sesión no pudo ser completado', error: error.message });
   }
