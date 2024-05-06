@@ -1,0 +1,21 @@
+.link {
+  color: #fff;
+  font-weight: bold;
+  padding: 1vw;
+  text-decoration: none;
+
+}
+
+.link:hover {
+  color:#e6e5e5;
+}
+
+.mi_cuenta_button {
+  background-color: #ff5862;
+  border: none;
+  /* padding: 1vw; */
+  border-radius: 0.5vw;
+  cursor: pointer;
+  font-size: 2vh;
+  box-shadow: 0.5vh 0.5vh 0.5vh rgba(0, 0, 0, 0.2);
+}
