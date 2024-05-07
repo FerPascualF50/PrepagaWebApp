@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import Info_company from '../components/Info_company';
+import Info_people from '../components/Info_people';
 import styles from '../components/styles/contact.module.css'
 
 const Contact = () => {
@@ -22,57 +24,10 @@ const Contact = () => {
       </div>
 
       {selectedOption === 'personas' && (
-        <div className={styles.contact_info}>
-          <div className={styles.container}>
-            <div className={styles.contact_box}>
-              <h3>EMERGENCIAS/MÉDICO A DOMICILIO</h3>
-              <p>0800 8 633486</p>
-            </div>
-            <div className={styles.contact_box}>
-              <h3>ASOCIADOS / WhatsApp</h3>
-              <p>+54 11 888 76846</p>
-            </div>
-            <div className={styles.contact_box}>
-              <h3>QUIERO ASOCIARME</h3>
-              <p>0800 2543 629</p>
-            </div>
-            <div className={styles.contact_box}>
-              <h3>EMPRESAS</h3>
-              <p>0800 3677 372</p>
-            </div>
-            <div className={styles.contact_box}>
-              <h3>PRESTADORES</h3>
-              <p>0800 3677 372</p>
-            </div>
-          </div>
-        </div>
+        <Info_people/>
       )}
-
       {selectedOption === 'empresas' && (
-        <div className={styles.contact_info}>
-          <div className={styles.container}>
-            <div className={styles.contact_box}>
-              <h3>PROVEEDORES</h3>
-              <p>0800 8888 346</p>
-            </div>
-            <div className={styles.contact_box}>
-              <h3> WhatsApp</h3>
-              <p>+54 11 4561 4687 </p>
-            </div>
-            <div className={styles.contact_box}>
-              <h3>PAGOS</h3>
-              <p>0800 888 0000</p>
-            </div>
-            <div className={styles.contact_box}>
-              <h3>CONSULTAS</h3>
-              <p>0800 4658 222</p>
-            </div>
-            <div className={styles.contact_box}>
-              <h3>PRESTADORES</h3>
-              <p>0800 8888 562</p>
-            </div>
-          </div>
-        </div>
+        <Info_company/>
       )}
     </section>
   );
