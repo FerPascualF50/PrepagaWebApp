@@ -8,6 +8,7 @@
 .faq_section {
   position: relative;
   padding-top: 50px;
+  max-height: calc(66% - 68px);
 }
 
 .background {
@@ -36,6 +37,7 @@
 .accordion_content {
   display: none;
   padding: 10px;
+  height: calc(66% - 68px);
 }
 
 .accordion_btn {
@@ -55,17 +57,17 @@
   background-color: #ccc;
 }
 
-.accordion_btn.active + .accordion-content {
+.accordion_btn.active+.accordion-content {
   display: block;
 }
 
 .accordion_btn::after {
-  content: '\002B'; 
+  content: '\002B';
   color: #777;
   font-weight: bold;
   float: right;
 }
 
 .accordion_btn.active::after {
-  content: "\2212"; 
+  content: "\2212";
 }
