@@ -20,7 +20,7 @@ function Copyright(props) {
 
 export default function Footer() {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '46vh', }} >
+    <Box sx={{ position: 'fixed', bottom: 0,width: '100%', backgroundColor: '#f3f3f3'}} >
       <CssBaseline />
       <Box component="footer" sx={{ py: 3, px: 2, mt: 'auto', backgroundColor: '#f3f3f3'}}>
         <Container maxWidth="sm">
