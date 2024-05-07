@@ -7,7 +7,7 @@ import styles from '../components/styles/faq.module.css'
 const Faq = () => {
   const faqs = [
     {
-      title: 'Quiero ser asociado a Vita +', subFaq: [
+      title: 'Quiero ser Vita +', subFaq: [
         { titleSubFaq: '¿Por qué mi prepaga tiene que ser Vita?', answer: 'Porque brindamos una amplia gama de planes, para asociados autónomos, en relación de dependencia y monotributistas. Además, incluímos dentro de nuestras propuestas: servicio de turismo, ayuda económica, subsidios para contingencias quirúrgicas y por fallecimiento y sepelio.' },
         { titleSubFaq: '¿Cómo hago para asociarme?', answer: 'Al momento de contar con nuestra cobertura, te llegará una credencial que te habilitará como Asociado y te permitirá el acceso a los distintos servicios. Además, podes también generar tu credencial virtual desde esta página web, para acceder a los servicios cuando los necesites de manera inmediata' }
       ]
