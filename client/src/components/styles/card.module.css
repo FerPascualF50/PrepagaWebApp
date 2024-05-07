@@ -1,0 +1,56 @@
+.card {
+  border: 1px solid #ff5862;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.background {
+  background-color: #45d1b7;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.content {
+  text-align: center;
+}
+
+.title {
+  color: #928f8f; 
+  margin-bottom: 6px;
+  margin-top: 10px;
+  font-size: 16px;
+  text-align: left;
+
+}
+
+.card_content {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+
+}
+
+.card_title {
+  color: #fff; 
+  font-size: 36px;
+  margin: 0;
+}
+
+.plus_sign {
+  color: #ff5862;
+  font-size: 48px;
+  margin-left: 10px;
+}
+
+.subtitle {
+  color: #928f8f; 
+  margin-top: 0px;
+  font-size: 14px;
+  text-align: left;
+}

@@ -1,5 +1,9 @@
+import Card from "../components/Card"
+
 const Centers = () => {
-  return <div>CENTROS</div>
+  return (
+    <Card />
+  )
 }
 
 export default Centers
