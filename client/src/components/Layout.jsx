@@ -1,4 +1,3 @@
-// eslint-disable-next-line react/prop-types
 import Footer from './Footer'
 import Header from './Header'
 
