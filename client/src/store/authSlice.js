@@ -1,6 +1,3 @@
-// import jwt from "jsonwebtoken";
-// import dotenv from 'dotenv';
-// dotenv.config();
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
@@ -9,14 +6,14 @@ export const signInAsync = createAsyncThunk(
   async (credentials) => {
     try {
       const { data } = await axios.post(
-        'http://localhost:4000/api/auths/login',
+        `http://localhost:4000/api/auths/login`,
         credentials
       )
-      console.log('DATA', data)
+      localStorage.setItem('access_token', data.access_token)
       return data
       
     } catch (error) {
-      throw error.message
+      throw error
     }
   }
 )
@@ -32,9 +29,7 @@ export const signInAsync = createAsyncThunk(
     },
     extraReducers: (builder) => {
       builder.addCase(signInAsync.fulfilled, (state, action) => {
-        state.user = action.payload.access_token
-        console.log(state.user)
-        
+        state.user = action.payload.userData
       })
     }
   })
