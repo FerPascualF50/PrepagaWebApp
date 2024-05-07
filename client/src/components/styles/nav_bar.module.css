@@ -3,19 +3,33 @@
   font-weight: bold;
   padding: 1vw;
   text-decoration: none;
-
+  white-space: nowrap;
 }
 
 .link:hover {
-  color:#e6e5e5;
+  color: #e6e5e5;
+}
+
+.link_Drawer {
+  color: gray;
+  font-weight: bold;
+  padding: 1vw;
+  text-decoration: none;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
 }
 
 .mi_cuenta_button {
   background-color: #ff5862;
   border: none;
-  /* padding: 1vw; */
   border-radius: 0.5vw;
   cursor: pointer;
   font-size: 2vh;
   box-shadow: 0.5vh 0.5vh 0.5vh rgba(0, 0, 0, 0.2);
+}
+
+h4 {
+  color: #fff;
+  font-size: 2vh;
 }

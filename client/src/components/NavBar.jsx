@@ -5,7 +5,6 @@ import { logout } from '../store/authSlice'
 
 const NavBar = () => {
   const { user } = useSelector((state) => state.auth)
-  console.log(user)
    const dispatch = useDispatch()
    return (
       <nav className={styles.nav_bar}>
