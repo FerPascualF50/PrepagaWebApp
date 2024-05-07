@@ -22,12 +22,11 @@ const Contact = () => {
           </div>
         </div>
       </div>
-
       {selectedOption === 'personas' && (
-        <Info_people/>
+        <Info_people />
       )}
       {selectedOption === 'empresas' && (
-        <Info_company/>
+        <Info_company />
       )}
     </section>
   );
