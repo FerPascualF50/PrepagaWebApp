@@ -17,7 +17,9 @@ const Landing = () => {
       </div>
       <p>Te damos la bienvenida a Vita Plus... encontrá el plan a tu medida</p>
       <a className={styles.info_button} href="/plans" > Vita + Planes</a>
-      <h2>Algunos Servicios...</h2>
+      <div className={styles.div_h2}>
+        <h2>Algunos Servicios...</h2>
+      </div>
       <section>
         <CardsServices />
       </section>
