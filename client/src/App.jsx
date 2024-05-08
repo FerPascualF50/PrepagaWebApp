@@ -18,12 +18,8 @@ import axios from 'axios'
 import { forcedLogin, validateLogin } from './store/authSlice'
 
 const App = () => {
-  const [loading, setLoading] = useState(false)
   const access_token = localStorage.getItem('access_token')
   const dispatch = useDispatch()
-
-
-
   useEffect(() => {
     if (!access_token) return
       dispatch(validateLogin())
