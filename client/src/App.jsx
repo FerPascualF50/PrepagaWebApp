@@ -8,12 +8,27 @@ import Faq from './pages/Faq'
 import Centers from './pages/Centers'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
-import LoginMui from './pages/LoginMiu'
+import SignIn from './pages/LoginMui'
 import SignUpMui from './pages/SignUpMui'
 import DashboardUser from './pages/DashUser'
 import './App.css'
+import { useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { forcedLogin, validateLogin } from './store/authSlice'
 
 const App = () => {
+  const [loading, setLoading] = useState(false)
+  const access_token = localStorage.getItem('access_token')
+  const dispatch = useDispatch()
+
+
+
+  useEffect(() => {
+    if (!access_token) return
+      dispatch(validateLogin())
+  }, [])
+
   return (
     <Layout>
       <Routes>
@@ -21,7 +36,7 @@ const App = () => {
         {/* <Route path='/signup' element={<SignUp />} /> */}
         <Route path='/signup' element={<SignUpMui />} />
         {/* <Route path='/login' element={<Login />} /> */}
-        <Route path='/login' element={<LoginMui />} />
+        <Route path='/login' element={<SignIn />} />
         <Route path='/plans' element={<Plans />} />
         <Route path='/centers' element={<Centers />} />
         <Route path='/contact' element={<Contact />} />
