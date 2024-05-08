@@ -53,6 +53,14 @@ export const loginController = async (req, res) => {
   }
 };
 
+export const validateToken = async (req, res) => {
+  try {
+    return res.json({ success: true, response: req.user })
+  } catch (error) {
+    res.json({ success: false, error: error.message });
+  }
+};
+
 export const forgotPassController = async (req, res) => {
   try {
     const { userName } = req.body;

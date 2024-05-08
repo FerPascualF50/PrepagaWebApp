@@ -54,10 +54,11 @@ export const loginService = async (userName, password) => {
       id: user._id,
       userName,
       rol: user.rol,
-      firstName: user.firstName
+      firstName: user.firstName,
+      imageProfile: user.imageProfile
     };
     const access_token = jwt.sign(payload, process.env.JWT_SECRET);
-    return {userData: payload.firstName, access_token};
+    return {userData: payload, access_token};
   } catch (error) {
     throw error;
   }
