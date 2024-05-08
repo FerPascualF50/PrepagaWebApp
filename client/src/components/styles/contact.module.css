@@ -7,15 +7,19 @@
 
 .contact_section {
   position: relative;
+  padding-top: 50px;
+  max-height: calc(66% - 68px);
 }
 
 .background {
   height: 300px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  background-color: #45d1b7;
 }
 
 .contact_info {
@@ -25,7 +29,6 @@
   transform: translateX(-50%);
   max-width: 900px;
   width: 90%;
-  height: 100%;
   margin: auto;
   background-color: white;
   padding: 20px;
@@ -34,11 +37,15 @@
 
 .contact_box {
   text-align: center;
-  margin-bottom: 20px;
+}
+
+h2{
+  padding-bottom: 10px;
+  padding-top: 5px;
 }
 
 .contact_box h2 {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   font-size: 24px;
 }
 
@@ -46,16 +53,6 @@
   color: #ff5862;
   font-weight: bold;
   font-size: 18px;
-}
-
-@media screen and (max-width: 768px) {
-  .contact_box h2 {
-    font-size: 16px;
-  }
-
-  .contact_box h4 {
-    font-size: 12px;
-  }
 }
 
 .option {

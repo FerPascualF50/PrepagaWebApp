@@ -8,10 +8,10 @@ const Contact = () => {
 
   return (
     <section className={styles.contact_section}>
-      <div className={styles.background} style={{ backgroundColor: '#45d1b7' }}>
+      <div className={styles.background}>
         <div className={styles.container}>
           <h2>Nuestros contactos</h2>
-          <h4>¡Todos nuestros canales de comunicación están a tu disposición!</h4>
+          <h4>¡Nuestros canales de comunicación a tu disposición!</h4>
           <div className={styles.options}>
             <button className={selectedOption === 'personas' ? styles.selected_option : styles.option} onClick={() => setSelectedOption('personas')}>
               Personas
