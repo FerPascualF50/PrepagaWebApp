@@ -9,7 +9,7 @@ import Centers from './pages/Centers'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
 import SignIn from './pages/LoginMui'
-import SignUpMui from './pages/SignUpMui'
+import SignUp from './pages/SignUp'
 import DashboardUser from './pages/DashUser'
 import './App.css'
 import { useDispatch } from 'react-redux'
@@ -29,8 +29,7 @@ const App = () => {
     <Layout>
       <Routes>
         <Route path='/' element={<Home />} />
-        {/* <Route path='/signup' element={<SignUp />} /> */}
-        <Route path='/signup' element={<SignUpMui />} />
+        <Route path='/signup' element={<SignUp />} />
         {/* <Route path='/login' element={<Login />} /> */}
         <Route path='/login' element={<SignIn />} />
         <Route path='/plans' element={<Plans />} />
