@@ -30,7 +30,7 @@ export const userValidationService = async (userId, userName) => {
   try {
     const userInfo = await UserModel.findById(userId);
     if(!userInfo) throw new Error('Usuario inexistente')
-    if (userInfo.userValidated ) throw new Error('Tu cuenta ya se encuetnra confirmada');
+    if (userInfo.userValidated ) throw new Error('Tu cuenta ya se encuentra confirmada.\nSolo logueate.');
     const confirmationCodeMatch = await bcrypt.compare(userName, userInfo.confirmationCode);
     if (!confirmationCodeMatch) throw new Error('Ups... algo pasó');
     userInfo.userValidated = true;

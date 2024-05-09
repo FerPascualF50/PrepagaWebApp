@@ -14,7 +14,7 @@ export const userAuthRouter = express.Router();
 userAuthRouter
   .post("/signup", createUserController)
   .post("/login", loginController)
-  .get("/validate-email/:userId", userValidationController)
   .get('/check-token', authMiddleware, validateToken)
+  .patch("/validate-email/:userId", userValidationController)
   .patch("/validate-pass/", passValidationController)
   .patch("/password/", forgotPassController);

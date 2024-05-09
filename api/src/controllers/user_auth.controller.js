@@ -21,8 +21,7 @@ export const createUserController = async (req, res) => {
 
 export const userValidationController = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const { userName } = req.query;
+    const { userId, userName } = req.body;
     if (!userId || !userName) throw new Error('Ups...parece que los datos no coinciden');
     if (!mongoose.Types.ObjectId.isValid(userId)) throw new Error('El ID proporcionado no tiene el formato válido');
     if ((!hasAllFields({ userId, userName }, fieldsByController.userValidationController))
