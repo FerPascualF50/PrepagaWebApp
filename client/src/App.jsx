@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useParams, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import Plans from './pages/Plans'
 import Layout from './components/Layout'
@@ -15,12 +15,13 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { forcedLogin, validateLogin } from './store/authSlice'
 
+
 const App = () => {
-  const access_token = localStorage.getItem('access_token')
   const dispatch = useDispatch()
+  const access_token = localStorage.getItem('access_token')
   useEffect(() => {
     if (!access_token) return
-      dispatch(validateLogin())
+    dispatch(validateLogin())
   }, [])
 
   return (
@@ -29,6 +30,7 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<SignIn />} />
+        <Route path="/login/:userId" element={<SignIn />} />
         <Route path='/plans' element={<Plans />} />
         <Route path='/centers' element={<Centers />} />
         <Route path='/contact' element={<Contact />} />

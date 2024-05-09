@@ -5,10 +5,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { useDispatch } from 'react-redux'
 import { signInAsync } from '../store/authSlice.js'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { isEmail, hasPassFormat } from "../utils/validation.js";
+import { validateUserAsync } from '../store/authSlice.js'
+
 
 const initialState = {
   userName: '',
@@ -20,6 +22,22 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { pathname } = useLocation();
+  const userId = pathname.split('/login/')[1];
+  const location = useLocation();
+  const userName = new URLSearchParams(location.search).get("userName");
+  const access_token = localStorage.getItem('access_token')
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (access_token) return;
+      if (!userId || !userName) return;
+      const success = await dispatch(validateUserAsync({ userId: userId, userName: userName }));
+      if (!success.payload.success) return toast.error(`${success.payload.error}`);
+      return toast.success(`${success.payload.message}`)
+    };
+    fetchData();
+  }, []);
 
   const handleInput = (e) => {
     const value = e.target.value
@@ -35,7 +53,7 @@ const SignIn = () => {
     if (!isEmail(newUser.userName)) return toast.error('ingresa un email válido')
     if (!hasPassFormat(newUser.password)) return toast.error('La contraseña debe tener al menos 8 caracteres y al menos un número')
     const success = await dispatch(signInAsync(newUser));
-    if (!success.payload.success) return toast.error(`${success.payload.error}. Y luego logueate...`);
+    if (!success.payload.success) return toast.error(`${success.payload.error}.`);
     navigate('/dashboard_user', { replace: true });
   }
   const isLoggedIn = localStorage.getItem('access_token')

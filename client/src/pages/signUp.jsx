@@ -16,13 +16,6 @@ import { hasEmptyField, isEmail, hasOnlyLetters, hasPassFormat } from "../utils/
 import { useNavigate } from 'react-router-dom'
 import Loading from '../components/Loading.jsx'
 
-// const initialState = {
-//   firstName: '',
-//   lastName: '',
-//   userName: '',
-//   password: ''
-// }
-
 const SignUp = () => {
   const [newUser, setNewUser] = useState()
   const [loading, setLoading] = useState(false);
@@ -37,8 +30,8 @@ const SignUp = () => {
       ...newUser,
       [name]: value
     })
-    console.log('DENTRO DEL INPUT', newUser)
   }
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (hasEmptyField(newUser)) return toast.error('Todos los campos son obligatorios')
@@ -48,7 +41,6 @@ const SignUp = () => {
     setLoading(true);
 
     const success = await dispatch(signUpAsync(newUser));
-    console.log('DISPATCH', newUser)
     setLoading(false);
 
     success.payload.success

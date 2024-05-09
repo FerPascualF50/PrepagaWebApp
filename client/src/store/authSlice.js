@@ -52,6 +52,23 @@ export const signUpAsync = createAsyncThunk(
   }
 )
 
+
+export const validateUserAsync = createAsyncThunk(
+  'auth/validateUserAsync',
+  async (userId, userName) => {
+    try {
+      const { data } = await axios.patch(
+        `http://localhost:4000/api/auths/validate-email/:userId`,
+        userId
+      )
+      console.log(data)
+      return data
+    } catch (error) {
+      throw error
+    }
+  }
+)
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -75,6 +92,9 @@ const authSlice = createSlice({
         state.user = action.payload
       }),
       builder.addCase(signUpAsync.fulfilled, (state, action) => {
+        state.user = action.payload
+      }),
+      builder.addCase(validateUserAsync.fulfilled, (state, action) => {
         state.user = action.payload
       })
   }

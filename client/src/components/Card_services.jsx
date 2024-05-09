@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 const Card_services = ({ title, imageUrl , hoverText }) => {
   const [isHovered, setIsHovered] = useState(false);
-
+// todo una sola function
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
