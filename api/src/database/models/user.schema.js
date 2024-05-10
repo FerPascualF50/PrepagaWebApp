@@ -48,7 +48,7 @@ const UserSchema = mongoose.Schema({
     imageProfile: {
       type: String,
       default:
-        "https://www.canva.com/design/DAGClBPXl8s/4G5HKvKG8hLR9S50bEV8cw/view?utm_content=DAGClBPXl8s&utm_campaign=designshare&utm_medium=link&utm_source=editor",
+        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fthenounproject.com%2Fbrowse%2Ficons%2Fterm%2Fprofile-picture%2F&psig=AOvVaw2PEsDrRf0Sx1DTqix9jgx0&ust=1715433883289000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj64LCXg4YDFQAAAAAdAAAAABAJ",
     },
     confirmationCode: {
       type: String,
