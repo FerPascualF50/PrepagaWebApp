@@ -1,10 +1,8 @@
-import NavBar from './NavBar'
-import DrawerAppBar from './NavbarMui'
+import DrawerAppBar from './Navbar'
 
 const Header = () => {
    return (
       <header>
-         {/* <NavBar /> */}
          <DrawerAppBar />
       </header>
    )
