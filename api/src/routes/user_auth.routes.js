@@ -16,5 +16,5 @@ userAuthRouter
   .post("/login", loginController)
   .get('/check-token', authMiddleware, validateToken)
   .patch("/validate-email/:userId", userValidationController)
-  .patch("/validate-pass/", passValidationController)
-  .patch("/password/", forgotPassController);
+  .patch("/validate-pass", passValidationController)
+  .patch("/password", forgotPassController);

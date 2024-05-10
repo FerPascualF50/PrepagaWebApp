@@ -68,7 +68,7 @@ export const forgotPassController = async (req, res) => {
     || !isEmail(userName)
   ) throw new Error('Tu e-mail es obligatorio debe ser un formato válido');
     const { email } = await forgotPassService(userName);
-    return res.status(200).json({ success: true, response: `Se envio un e-maail a ${userName} para confirmar tu password` });
+    return res.status(200).json({ success: true, response: `Se envió un e-maail a ${userName} para confirmar tu password` });
   } catch (error) {
     res.json({ success: false, message: 'El cambio de tu password no pudo ser completado', error: error.message });
   }
