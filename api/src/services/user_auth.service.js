@@ -43,7 +43,7 @@ export const userValidationService = async (userId, userName) => {
 
 export const loginService = async (userName, password) => {
   try {
-    const user = await UserModel.findOne({ userName }).select('userName password rol firstName userValidated' );
+    const user = await UserModel.findOne({ userName }).select('userName password rol firstName userValidated imageProfile' );
     UserModel.schema.path("password").select(true);
     if ( !user ) throw new Error("Nombre de usuario o contraseña incorrectos");
     if (!user.userValidated) throw new Error ('Revisa tu e-mail y valida tu cuenta')
