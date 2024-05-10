@@ -61,7 +61,35 @@ export const validateUserAsync = createAsyncThunk(
         `http://localhost:4000/api/auths/validate-email/:userId`,
         userId
       )
-      console.log(data)
+      return data
+    } catch (error) {
+      throw error
+    }
+  }
+)
+
+export const forgetPassAsync = createAsyncThunk(
+  'auth/forgetPassAsync',
+  async (userName) => {
+    try {
+      const { data } = await axios.patch(
+        `http://localhost:4000/api/auths/password`,
+        userName
+      )
+      return data
+    } catch (error) {
+      throw error
+    }
+  }
+)
+export const validateCodePassAsync = createAsyncThunk(
+  'auth/validateCodePassAsync',
+  async (payload) => {
+    try {
+      const { data } = await axios.patch(
+        `http://localhost:4000/api/auths/validate-pass`,
+        payload
+      )
       return data
     } catch (error) {
       throw error
@@ -95,6 +123,12 @@ const authSlice = createSlice({
         state.user = action.payload
       }),
       builder.addCase(validateUserAsync.fulfilled, (state, action) => {
+        state.user = action.payload
+      }),
+      builder.addCase(forgetPassAsync.fulfilled, (state, action) => {
+        state.user = action.payload
+      }),
+      builder.addCase(validateCodePassAsync.fulfilled, (state, action) => {
         state.user = action.payload
       })
   }
