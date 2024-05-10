@@ -47,7 +47,7 @@ const SignUp = () => {
       ? (
         setLoading(true),
         setTimeout(() => {
-          toast.success('Tu usuario se creó con éxito.\n\nIngresa a tu e-mail para validarla, y luego logueate.', {
+          toast.success('Tu usuario se creó con éxito.\n\nIngresa a tu e-mail para validarlo, y luego logueate.', {
             position: "top-center", duration: 5000
           });
         }, 50),
