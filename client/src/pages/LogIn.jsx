@@ -72,13 +72,7 @@ const SignIn = () => {
       )}
       <Toaster position="bottom-center" reverseOrder={false} />
       <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}>
+      <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
@@ -111,7 +105,7 @@ const SignIn = () => {
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2, color: '#fff' }}>Ingresar</Button>
           <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
             <Grid item xs>
-              <Link href="/fotget-pass" variant="body2"> Olvidaste tu clave? </Link>
+              <Link href="/forget-pass" variant="body2"> Olvidaste tu clave? </Link>
             </Grid>
             <Grid item>
               <Link href="/signup" variant="body2"> {"No tenes cuenta aún? Registrate aqui"}</Link>
