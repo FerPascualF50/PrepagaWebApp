@@ -61,14 +61,7 @@ const SignUp = () => {
       <Toaster position="bottom-center" reverseOrder={false} />
       <CssBaseline />
       {loading && <Loading />}
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
+      <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center'}} >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
@@ -78,21 +71,15 @@ const SignUp = () => {
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="given-name"
+              <TextField autoComplete="given-name" required fullWidth autoFocus
                 name="firstName"
-                required
-                fullWidth
                 id="firstName"
                 label="Tu primer nombre"
-                autoFocus
                 onChange={handleInput}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
+              <TextField required fullWidth
                 id="lastName"
                 label="Tu apellido"
                 name="lastName"
@@ -101,9 +88,7 @@ const SignUp = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
+              <TextField required fullWidth
                 id="email"
                 label="Tu e-mail"
                 name="userName"
@@ -112,9 +97,7 @@ const SignUp = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
+              <TextField required fullWidth
                 name="password"
                 label="Tu password"
                 type="password"
@@ -124,12 +107,7 @@ const SignUp = () => {
               />
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2, color: '#fff' }}
-          >
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2, color: '#fff' }}>
             Crear
           </Button>
           <Grid container justifyContent="flex-end" >
