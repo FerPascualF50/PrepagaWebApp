@@ -6,11 +6,10 @@ export const signInAsync = createAsyncThunk(
   async (credentials) => {
     try {
       const { data } = await axios.post(
-        `http://localhost:4000/api/auths/login`,
+        `/auths/login`,
         credentials
       )
       return data
-
     } catch (error) {
       throw error
     }
@@ -23,14 +22,14 @@ export const validateLogin = createAsyncThunk(
     try {
       const access_token = localStorage.getItem('access_token')
       const response = await axios.get(
-        'http://localhost:4000/api/auths/check-token',
+        '/auths/check-token',
         {
           headers: {
             Authorization: access_token
           }
         }
       )
-      return response.data.response.firstName
+      return response.data
     } catch (error) {
       console.error(error)
     }
@@ -42,7 +41,7 @@ export const signUpAsync = createAsyncThunk(
   async (dataUser) => {
     try {
       const { data } = await axios.post(
-        `http://localhost:4000/api/auths/signup`,
+        `/auths/signup`,
         dataUser
       )
       return data
@@ -58,7 +57,7 @@ export const validateUserAsync = createAsyncThunk(
   async (userId, userName) => {
     try {
       const { data } = await axios.patch(
-        `http://localhost:4000/api/auths/validate-email/:userId`,
+        `/auths/validate-email/:userId`,
         userId
       )
       return data
@@ -73,7 +72,7 @@ export const forgetPassAsync = createAsyncThunk(
   async (userName) => {
     try {
       const { data } = await axios.patch(
-        `http://localhost:4000/api/auths/password`,
+        `/auths/password`,
         userName
       )
       return data
@@ -87,7 +86,7 @@ export const validateCodePassAsync = createAsyncThunk(
   async (payload) => {
     try {
       const { data } = await axios.patch(
-        `http://localhost:4000/api/auths/validate-pass`,
+        `/auths/validate-pass`,
         payload
       )
       return data
@@ -108,7 +107,7 @@ const authSlice = createSlice({
       localStorage.removeItem('access_token')
     },
     forcedLogin: (state, action) => {
-      state.user = action.payload
+      state.user = action.payload.userData
     }
   },
   extraReducers: (builder) => {
@@ -117,7 +116,7 @@ const authSlice = createSlice({
       if (action.payload.access_token) localStorage.setItem('access_token', action.payload.access_token)
     }),
       builder.addCase(validateLogin.fulfilled, (state, action) => {
-        state.user = action.payload
+        state.user = action.payload.response
       }),
       builder.addCase(signUpAsync.fulfilled, (state, action) => {
         state.user = action.payload

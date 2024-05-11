@@ -8,7 +8,6 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Logout from '@mui/icons-material/Logout';
@@ -34,17 +33,37 @@ const navItems = [
   { name: 'CONTACTO', route: '/contact' }
 ];
 
+const navItemsAdmin = [
+  { name: 'FACTURACION', route: 'dashboard-admin/invoicing' },
+  { name: 'USUARIOS', route: 'dashboard-admin/users' },
+];
+
+const navItemsUser = [
+  { name: 'MIS FACTURAS', route: '/incoices' },
+  { name: 'AUTORIZACIONES', route: '/exams'},
+  { name: 'MI PERFIL', route: '/profile' },
+  { name: 'HOME', route: '/' },
+  { name: 'CENTROS', route: '/centers' },
+  { name: 'PLANES', route: '/plans' },
+  { name: 'CONSULTAS', route: '/faq' },
+  { name: 'CONTACTO', route: '/contact' },
+];
+
 function DrawerAppBar(props) {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isLoggedIn = localStorage.getItem('access_token')
   
   const { user } = useSelector((state) => state.auth)
-  console.log(user)
-  const isLoggedIn = localStorage.getItem('access_token')
-  const navigate = useNavigate()
-
-  const dispatch = useDispatch()
-
+  let navItemsToRender = navItems
+  const roleMappings = {
+    admin: navItemsAdmin,
+    user: navItemsUser,
+  };
+  if (isLoggedIn && user?.rol in roleMappings) navItemsToRender = roleMappings[user?.rol]
+  
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -53,6 +72,7 @@ function DrawerAppBar(props) {
   };
 
   const handleLogout = () => {
+    dispatch(logout())
     localStorage.removeItem('access_token')
     navigate('/')
   }
@@ -62,7 +82,7 @@ function DrawerAppBar(props) {
       <Typography variant="h6" sx={{ my: 2 }}>Vita +</Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
+        {navItemsToRender.map((item) => (
           <ListItem  disableGutters key={item.name} disablePadding>
             <Link to={item.route} className={styles.link_Drawer}>
               <ListItemText primary={item.name} />
@@ -74,8 +94,6 @@ function DrawerAppBar(props) {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
-
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -103,8 +121,7 @@ function DrawerAppBar(props) {
                 <Logout />
               </IconButton>
             </Tooltip>}
-          {/* {user && <h4 onClick={() => dispatch(logout())}>Logout</h4>} */}
-          {isLoggedIn && <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />}
+          {isLoggedIn && <Avatar alt="Remy Sharp" src={user?.imageProfile} />}
         </Toolbar>
       </AppBar>
       <nav>

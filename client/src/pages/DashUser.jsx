@@ -1,5 +1,5 @@
 const DashboardUser = () => {
-  return <div>Dahsboard</div>
+  return <div>UESR</div>
 }
 
 export default DashboardUser

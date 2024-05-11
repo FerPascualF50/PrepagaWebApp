@@ -3,13 +3,14 @@ import { useState } from 'react'
 import { CircularProgress, Avatar, Button, TextField, Link, Grid, Box, Typography, Container } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { signInAsync } from '../store/authSlice.js'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { isEmail, hasPassFormat } from "../utils/validation.js";
 import { validateUserAsync } from '../store/authSlice.js'
+import Loading from '../components/Loading.jsx';
 
 
 const initialState = {
@@ -32,8 +33,10 @@ const SignIn = () => {
     const fetchData = async () => {
       if (access_token) return;
       if (!userId || !userName) return;
+      setLoading(true)
       const success = await dispatch(validateUserAsync({ userId: userId, userName: userName }));
       if (!success.payload.success) return toast.error(`${success.payload.error}`);
+      setLoading(false)
       return toast.success(`${success.payload.message}`)
     };
     fetchData();
@@ -52,24 +55,24 @@ const SignIn = () => {
     e.preventDefault()
     if (!isEmail(newUser.userName)) return toast.error('ingresa un email válido')
     if (!hasPassFormat(newUser.password)) return toast.error('La contraseña debe tener al menos 8 caracteres y al menos un número')
+    setLoading(true)
     const success = await dispatch(signInAsync(newUser));
     if (!success.payload.success) return toast.error(`${success.payload.error}.`);
-    navigate('/dashboard_user', { replace: true });
+    setLoading(false)
   }
+  const { user } = useSelector((state) => state.auth)
   const isLoggedIn = localStorage.getItem('access_token')
 
   useEffect(() => {
     if (isLoggedIn) {
       setLoading(true)
-      navigate('/dashboard_user', { replace: true });
+      user?.rol === 'admin' ? navigate('/dashboard/admin', { replace: true }) : navigate('/dashboard/user', { replace: true })
     }
   }, [isLoggedIn, navigate]);
 
   return (
     <Container component="main" maxWidth="xs">
-      {loading && (
-        <CircularProgress />
-      )}
+      {loading && (<Loading />)}
       <Toaster position="bottom-center" reverseOrder={false} />
       <CssBaseline />
       <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

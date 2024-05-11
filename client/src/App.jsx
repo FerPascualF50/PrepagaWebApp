@@ -9,14 +9,17 @@ import NotFound from './pages/NotFound'
 import SignIn from './pages/Login'
 import SignUp from './pages/SignUp'
 import DashboardUser from './pages/DashUser'
+import DashboardAdmin from './pages/DashAdmin'
 import ForgetPass from './pages/ForgetPass'
 import ValidateCodePass from './pages/ValidateCodePass'
+import Invoicing from './pages/Invoicing'
+import Users from './pages/Users'
 import './App.css'
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { forcedLogin, validateLogin } from './store/authSlice'
-
+axios.defaults.baseURL = import.meta.env.VITE_API_LOCAL_BASE_URL
 
 const App = () => {
   const dispatch = useDispatch()
@@ -39,7 +42,16 @@ const App = () => {
         <Route path='/centers' element={<Centers />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/faq' element={<Faq />} />
-        <Route path='/dashboard_user' element={<DashboardUser />} />
+        <Route path='/dashboard-admin'>
+          <Route index element={<DashboardAdmin />} />
+          <Route path='invoicing' element={<Invoicing />} />
+          <Route path='users' element={<Users />} />
+        </Route>
+        <Route path='/dashboard-user' element={<DashboardUser />}>
+          {/* <Route path='my-invoices' element={<MyInvoices />} />
+            <Route path='my-profile' element={<MyProfile />} />
+            <Route path='exams' element={<Exams />} /> */}
+        </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>
     </Layout>
