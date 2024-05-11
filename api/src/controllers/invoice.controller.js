@@ -65,7 +65,9 @@ export const getInvoicesController = async (req, res) => {
 
 export const getClientsByPeriodController = async (req, res) => {
   try {
-    const { year, month } = req.body
+    const { yearInvoice, monthInvoice } = req.query
+    const year = Number(yearInvoice)
+    const month = Number(monthInvoice)
     if(hasEmptyField(year, month)) throw new Error('El año y el mes no pueden estar vacío.')
     if (hasStringValue({year, month})) throw new Error('El año y mes deben ser números');
     if (month > 12 || month < 1) throw new Error('El mes seleccionado no es válido');
