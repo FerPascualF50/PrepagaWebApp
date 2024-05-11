@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react'
-import { CircularProgress, Avatar, Button, TextField, Link, Grid, Box, Typography, Container } from '@mui/material';
+import { Avatar, Button, TextField, Link, Grid, Box, Typography, Container } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { useDispatch, useSelector } from 'react-redux'
@@ -53,9 +53,9 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
     if (!isEmail(newUser.userName)) return toast.error('ingresa un email válido')
     if (!hasPassFormat(newUser.password)) return toast.error('La contraseña debe tener al menos 8 caracteres y al menos un número')
-    setLoading(true)
     const success = await dispatch(signInAsync(newUser));
     if (!success.payload.success) return toast.error(`${success.payload.error}.`);
     setLoading(false)
@@ -66,7 +66,7 @@ const SignIn = () => {
   useEffect(() => {
     if (isLoggedIn) {
       setLoading(true)
-      user?.rol === 'admin' ? navigate('/dashboard/admin', { replace: true }) : navigate('/dashboard/user', { replace: true })
+      user?.rol === 'admin' ? navigate('/dashboard-admin/users', { replace: true }) : navigate('/dashboard-user', { replace: true })
     }
   }, [isLoggedIn, navigate]);
 
