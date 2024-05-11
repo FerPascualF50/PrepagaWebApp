@@ -1,18 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-export const invoiceAsync = createAsyncThunk(
-  'invoice/invoiceAsync',
-  async (credentials) => {
+export const getClientsByInvocePeriod = createAsyncThunk(
+  'invoice/getClientsByInvocePeriod',
+  async (period) => {
     try {
-      const { data } = await axios.post(
-        `http://localhost:4000/api/auths/login`,
-        credentials
+      const access_token = localStorage.getItem('access_token');
+      const { data } = await axios.get(
+        `/invoices/clients`,
+         period
       )
       return data
-
     } catch (error) {
-      throw error
+      console.error(error)
     }
   }
 )
@@ -20,25 +20,21 @@ export const invoiceAsync = createAsyncThunk(
 const invoiceSlice = createSlice({
   name: 'invoice',
   initialState: {
-    invoice: null
+    users: null
   },
   reducers: {
-    logouttert: (state) => {
-      state.user = null
-      localStorage.removeItem('access_token')
-    },
-    forcedLoginwtwet: (state, action) => {
-      state.user = action.payload
+
+    getClients: (state, action) => {
+      state.users = action.payload
     }
   },
   extraReducers: (builder) => {
-    // builder.addCase(signInAsync.fulfilled, (state, action) => {
-    //   state.user = action.payload.userData || null
-    //   if (action.payload.access_token) localStorage.setItem('access_token', action.payload.access_token)
-    // s
-     
+    builder.addCase(getClientsByInvocePeriod.fulfilled, (state, action) => {
+      state.users = action.payload || null
+    })
+
   }
 })
 
-export const { logouttert, logout, forcedLoginwtwet } = invoiceSlice.actions
+export const { getClients } = invoiceSlice.actions
 export default invoiceSlice.reducer
