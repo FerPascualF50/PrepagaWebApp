@@ -37,6 +37,7 @@ export const createInvoicesController = async (req, res) => {
 export const deleteInvoiceController = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id)
     if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID proporcionado no tiene el formato válido');
     if (hasEmptyField(id)) throw new Error('Ups...parece que los datos no son correctos');
     const deletedInvoice = await deleteInvoiceService(id);
