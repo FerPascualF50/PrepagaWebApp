@@ -35,7 +35,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (hasEmptyField(newUser)) return toast.error('Todos los campos son obligatorios')
-    if (!hasOnlyLetters({ fisrtName: newUser.firstName, lastName: newUser.lastName })) return toast.error('Ups... nombre o apellido con:\n*Caracteres invàlidos ó\n*Caracteres vacios')
+    if (!hasOnlyLetters({ fisrtName: newUser.firstName, lastName: newUser.lastName })) return toast.error('Ups... nombre o apellido con:\n*Espacios vacios ó\n*Caracteres invàlidos')
     if (!isEmail(newUser.userName)) return toast.error('ingresa un email válido')
     if (!hasPassFormat(newUser.password)) return toast.error('La contraseña debe tener al menos 8 caracteres y al menos un número')
     setLoading(true);
