@@ -54,6 +54,7 @@ const invoiceSlice = createSlice({
     }),
       builder.addCase(postInvoices.fulfilled, (state, action) => {
         state.users = action.payload || null;
+        if(!action.payload.success) return
         state.months = state.months.filter(month => month !== action.payload.response[0].period.month);
       })
   }

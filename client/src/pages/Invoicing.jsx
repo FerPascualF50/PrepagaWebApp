@@ -26,7 +26,8 @@ const Invoices = () => {
     const payload = { year, month, ids };
     const actionResult = await dispatch(postInvoices(payload));
     setLoading(false);
-    if (!actionResult.payload.success) toast.error('No había clientes pendientes de facturar')
+    if(!actionResult.payload) toast.error('No existen clientes pendientes de facturar en el periodo deseado')
+    if (!actionResult.payload.success) toast.error('No existen clientes pendientes de facturar')
     return toast.success('Facturas creadas con exito')
   };
 
