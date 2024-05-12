@@ -1,61 +1,71 @@
-import React from 'react';
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 import { Typography, TextField, Box, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, IconButton, Button } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllUsers, deleteUsers } from '../store/userSlice';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleSharp from '@mui/icons-material/AddCircleSharp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import Loading from '../components/Loading';
+import toast, { Toaster } from 'react-hot-toast';
+import AlertDialog from '../components/DialogConfirm';
 
 const Users = () => {
-  const [loading, setLoading] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const dispatch = useDispatch();
 
-  // Datos de ejemplo
-  const users = [
-    { id: 1, firstName: 'John', lastName: 'Doe', email: 'john@example.com', plan: 'Premium' },
-    { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com', plan: 'Basic' },
-  ];
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [dispatch]);
+
+  const users = useSelector(state => state.user.users);
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+    setSearch(e.target.value);
   };
 
   const handleSort = (field) => {
-    if (sortBy === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortBy(field);
-      setSortOrder('asc');
-    }
+    const newSortOrder = sortBy === field ? (sortOrder === 'asc' ? 'desc' : 'asc') : 'asc';
+    setSortBy(field);
+    setSortOrder(newSortOrder);
   };
 
-  const sortedUsers = users.slice().sort((a, b) => {
-    if (sortBy) {
-      const comparison = a[sortBy].localeCompare(b[sortBy]);
-      return sortOrder === 'asc' ? comparison : -comparison;
-    } else {
-      return 0;
-    }
-  });
+  const handleDelete = (userId) => {
+    setSelectedUserId(userId);
+    setIsDialogOpen(true);
+  };
 
-  const filteredUsers = sortedUsers.filter(user =>
-    user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleConfirmDelete = async () => {
+    setLoading(true)
+    const response = await dispatch(deleteUsers(selectedUserId));
+    setLoading(false)
+    setIsDialogOpen(false);
+    if (!response.payload.success) return toast.error(`No se puede eliminar.\n${response.payload.error}`)
+      toast.success(`El usuario:\n${response.payload.response.firstName} ${response.payload.response.lastName}\n fué eliminado con éxito`)
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+  };
+
+  const filteredUsers = users.filter(user => user.firstName.toLowerCase().includes(search.toLowerCase()) ||  user.lastName.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <Box px={3} py={1}>
-      {loading && (<Loading />)}
+      {loading && <Loading />}
+      <Toaster />
+      <AlertDialog open={isDialogOpen} handleClose={handleCloseDialog} handleConfirmDelete={handleConfirmDelete}/>
       <Box sx={{ textAlign: 'center', mb: 2 }}>
-        <Typography variant="h6" sx={{ paddingBottom: '10px', paddingTop: '10px' }}>
-          Administrar Usuarios
-        </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, height: '56px' }}>
-          <Button variant="outlined" color="secondary" startIcon={<AddCircleSharp />} onClick={() => handleInvoiceClick()}> Crear </Button>
-          <TextField label="Buscar" variant="outlined" value={searchTerm} onChange={handleSearchChange} sx={{ mx: 2, height: '100%' }} />
+        <Typography variant="h6" sx={{ paddingBottom: '10px', paddingTop: '10px' }}> Administrar Usuarios </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', m: 2, height: '56px' }}>
+          <Button variant="outlined" color="secondary" startIcon={<AddCircleSharp />} sx={{ height: '56px', minWidth: '100px' }}> Crear </Button>
+          <TextField label="Buscar" variant="outlined" value={search} onChange={handleSearchChange} sx={{ mx: 2, height: '42px', width: '300px' }} />
           <Box />
         </Box>
       </Box>
@@ -63,13 +73,20 @@ const Users = () => {
         <Table sx={{ minWidth: '100%', maxWidth: '100%', mx: "auto" }}>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 'bold', width: '150px' }} onClick={() => handleSort('firstName')}>
-                Nombre {sortBy === 'firstName' && (sortOrder === 'asc' ? <ArrowDropDownIcon color="primary"/> : <ArrowDropUpIcon color="primary" />)}
+              <TableCell sx={{ fontWeight: 'bold', minWidth: '150px' }} onClick={() => handleSort('firstName')}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <span style={{ marginRight: '4px', cursor: 'pointer' }}>Nombre</span>
+                  {sortBy === 'firstName' && (sortOrder === 'asc' ? <ArrowDropDownIcon color="primary" /> : <ArrowDropUpIcon color="primary" />)}
+                </div>
               </TableCell>
-              <TableCell sx={{ fontWeight: 'bold', width: '150px' }} onClick={() => handleSort('lastName')}>
-                Apellido {sortBy === 'lastName' && (sortOrder === 'asc' ? <ArrowDropDownIcon color="primary" /> : <ArrowDropUpIcon color="primary" />)}
+              <TableCell sx={{ fontWeight: 'bold', minWidth: '150px' }} onClick={() => handleSort('lastName')}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <span style={{ marginRight: '4px', cursor: 'pointer' }}>Apellido</span>
+                  {sortBy === 'lastName' && (sortOrder === 'asc' ? <ArrowDropDownIcon color="primary" /> : <ArrowDropUpIcon color="primary" />)}
+                </div>
               </TableCell>
-              <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2, paddingTop: '10px' }} >Email</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Rol</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Email</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Plan</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Editar</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Eliminar</TableCell>
@@ -77,18 +94,19 @@ const Users = () => {
           </TableHead>
           <TableBody>
             {filteredUsers.map((user) => (
-              <TableRow key={user.id}>
+              <TableRow key={user._id}>
                 <TableCell>{user.firstName}</TableCell>
                 <TableCell>{user.lastName}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.plan}</TableCell>
+                <TableCell>{user.rol}</TableCell>
+                <TableCell>{user.userName}</TableCell>
+                <TableCell>{user.plan?.name ? user.plan.name : "No cliente"}</TableCell>
                 <TableCell>
-                  <IconButton color="primary">
+                  <IconButton color="#f3f3f3">
                     <EditIcon />
                   </IconButton>
                 </TableCell>
                 <TableCell>
-                  <IconButton color="secondary">
+                  <IconButton color="secondary" onClick={() => handleDelete(user._id)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -101,4 +119,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Users
