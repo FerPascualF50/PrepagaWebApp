@@ -22,17 +22,7 @@ export const postInvoices = createAsyncThunk(
     try {
       const access_token = localStorage.getItem('access_token');
       const response = await axios.post(
-        '/invoices',
-        {
-          year: payload.year,
-          month: payload.month,
-          ids: payload.ids
-        },
-        {
-          headers: {
-            Authorization: access_token
-          }
-        }
+        '/invoices', { year: payload.year, month: payload.month, ids: payload.ids }, { headers: { Authorization: access_token } }
       );
       return response.data;
     } catch (error) {
@@ -45,7 +35,7 @@ export const postInvoices = createAsyncThunk(
 const invoiceSlice = createSlice({
   name: 'invoice',
   initialState: {
-    users: null,
+    users: [],
     year: 2024,
     months: [5, 6, 7, 8, 9, 10, 11, 12]
   },
