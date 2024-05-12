@@ -12,7 +12,7 @@ import DashboardUser from './pages/DashUser'
 import DashboardAdmin from './pages/DashAdmin'
 import ForgetPass from './pages/ForgetPass'
 import ValidateCodePass from './pages/ValidateCodePass'
-import Invoicing from './pages/Invoicing'
+import TabsAdmin from './components/TabsAdmin'
 import Users from './pages/Users'
 import './App.css'
 import { useDispatch } from 'react-redux'
@@ -44,7 +44,7 @@ const App = () => {
         <Route path='/faq' element={<Faq />} />
         <Route path='/dashboard-admin'>
           <Route index element={<DashboardAdmin />} />
-          <Route path='invoicing' element={<Invoicing />} />
+          <Route path='invoicing' element={<TabsAdmin />} />
           <Route path='users' element={<Users />} />
         </Route>
         <Route path='/dashboard-user' element={<DashboardUser />}>
