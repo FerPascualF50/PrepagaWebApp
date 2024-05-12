@@ -29,7 +29,7 @@ export const getUserByIdService = async (id) => {
 
 export const getAllUsersService = async () => {
   try {
-    const users = await UserModel.find({});
+    const users = await UserModel.find({}).populate('plan', 'name');
     return users;
   } catch (error) {
     throw error;
