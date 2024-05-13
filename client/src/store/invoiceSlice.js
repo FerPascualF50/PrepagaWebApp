@@ -9,7 +9,6 @@ export const getClientsByInvocePeriod = createAsyncThunk(
       const { data } = await axios.get(
         `/invoices/clients?yearInvoice=${period.yearInvoice}&monthInvoice=${period.monthInvoice}`, { headers: { Authorization: access_token } }, {}
       )
-      console.log('GET CLIENT', data)
       return data
     } catch (error) {
       console.error(error)
