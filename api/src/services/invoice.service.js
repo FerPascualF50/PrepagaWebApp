@@ -113,9 +113,8 @@ export const updatePaymentService = async (ids) => {
       { statusPayment: 'paid' }, 
       { new: true } 
     );
-    return (invoice)
+    return invoice
   } catch (error) {
-    console.error(error)
     throw error;
   }
 };
