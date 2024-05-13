@@ -1,0 +1,54 @@
+.card {
+  border: 1px solid #ff5862;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  margin: 0 auto;
+  margin-top: 20px;
+  position: relative;
+}
+
+.image {
+  width: 260px;
+  height: 170px;
+  border-radius: 8px;
+  min-width: 90px;
+  min-height: 65px;
+}
+
+.title {
+  margin-top: 10px;
+  text-align: center;
+  color: #949494;
+}
+
+.card:hover {
+  background-color: rgba(255, 88, 98, 1);
+}
+
+.card:hover .image {
+  opacity: 0.15;
+}
+
+.card:hover .title {
+  color: #fff
+}
+
+@media (max-width: 768px) {
+  .card {
+    max-width: 100%;
+  }
+}
+
+.hoverText {
+  position: absolute;
+  top: 10px; 
+  left: 50%;
+  /* right: 50%; */
+  transform: translateX(-50%); 
+  color: #fff; /* Color del texto blanco */
+  padding: 8px 16px; /* Espaciado interno */
+  border-radius: 8px; /* Bordes redondeados */
+  /* white-space: nowrap; Evitar que el texto se divida en varias líneas */
+}
