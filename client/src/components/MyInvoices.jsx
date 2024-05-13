@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, IconButton, Tooltip } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { InvoicesByUser, updatePaymentInvoice } from '../store/invoiceSlice';
+import { InvoicesByUser, updatePaymentInvoice, getMyPdfInvoice } from '../store/invoiceSlice';
 import PaidIcon from '@mui/icons-material/Paid';
 import PaymentIcon from '@mui/icons-material/Payment';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
@@ -36,11 +36,16 @@ const MyInvoices = () => {
       setLoading(false)
       setIsDialogOpen(false);
       toast.success(`El Pago fue realizado con éxito`)
-    }, 5000);
+    }, 3000);
   };
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
+  };
+
+  const handleGetPdfInvoice = async (id) => {
+    const response = await dispatch(getMyPdfInvoice(id))
+    if(response.payload == undefined) return toast.error('La factura ya no existe')
   };
 
   return (
@@ -87,7 +92,7 @@ const MyInvoices = () => {
                   </IconButton>
                 </TableCell>
                 <TableCell>
-                  <IconButton color="secondary">
+                  <IconButton color="secondary" onClick={() => handleGetPdfInvoice(invoice._id)}>
                     <RequestQuoteIcon />
                   </IconButton>
                 </TableCell>
