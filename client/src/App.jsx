@@ -6,6 +6,7 @@ import Faq from './pages/Faq'
 import Centers from './pages/Centers'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
+import Login from './pages/LogIn'
 import SignUp from './pages/SignUp';
 import DashboardUser from './pages/DashUser'
 import DashboardAdmin from './pages/DashAdmin'
@@ -35,8 +36,9 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/signup' element={<SignUp />} />
-       
-        <Route path="/forget-pass" element={<ForgetPass />} />
+        <Route path='/login' element={<Login />} />
+        <Route path="/login/:userId" element={<Login />} />
+        <Route path="/forget-pass" element={<ForgetPass />} />   
         <Route path="/input-code/:userName" element={<ValidateCodePass />} />
         <Route path='/plans' element={<Plans />} />
         <Route path='/centers' element={<Centers />} />
