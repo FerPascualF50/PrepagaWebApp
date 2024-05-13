@@ -1,6 +1,6 @@
 import { Box, Tabs, Tab } from '@mui/material';
-import Invoices from './Invoicing';
-import ShowInvoices from './ShowInvoices';
+import Invoices from '../components/Invoicing';
+import ShowInvoices from '../components/ShowInvoices';
 import { useState } from 'react';
 
 export default function TabsAdmin() {

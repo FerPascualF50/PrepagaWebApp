@@ -39,9 +39,8 @@ const navItemsAdmin = [
 ];
 
 const navItemsUser = [
-  { name: 'MIS FACTURAS', route: '/incoices' },
-  { name: 'AUTORIZACIONES', route: '/exams'},
-  { name: 'MI PERFIL', route: '/profile' },
+  { name: 'GESTIONES', route: 'dashboard-user/manage' },
+  { name: 'MI PERFIL', route: 'dashboard-user/profile' },
   { name: 'HOME', route: '/' },
   { name: 'CENTROS', route: '/centers' },
   { name: 'PLANES', route: '/plans' },

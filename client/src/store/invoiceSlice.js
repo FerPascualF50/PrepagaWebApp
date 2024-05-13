@@ -54,7 +54,38 @@ export const deleteInvoices = createAsyncThunk(
     try {
       const access_token = localStorage.getItem('access_token');
       const response = await axios.patch(
-        `/invoices/delete/${id}`,  { params: id }, { headers: { Authorization: access_token } }
+        `/invoices/delete/${id}`, { params: id }, { headers: { Authorization: access_token } }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
+export const InvoicesByUser = createAsyncThunk(
+  'invoice/InvoicesByUser',
+  async () => {
+    try {
+      const access_token = localStorage.getItem('access_token');
+      const response = await axios.get(
+        `/invoices/by_user`, { headers: { Authorization: access_token } }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+export const updatePaymentInvoice = createAsyncThunk(
+  'invoice/updatePaymentInvoice',
+  async (_id) => {
+    try {
+      const access_token = localStorage.getItem('access_token');
+      const response = await axios.patch(
+        `/invoices/payment?_id=${_id}`, {}, { headers: { Authorization: access_token } }
       );
       return response.data;
     } catch (error) {
@@ -98,6 +129,16 @@ const invoiceSlice = createSlice({
         if (!action.payload.success) return
         const newInvoices = state.invoices.filter(invoice => invoice._id !== action.payload.response._id);
         state.invoices = newInvoices.length ? newInvoices : null;
+      }),
+      builder.addCase(InvoicesByUser.fulfilled, (state, action) => {
+        if (!action.payload.success) return
+        state.invoices = action.payload.response || null;
+      }),
+      builder.addCase(updatePaymentInvoice.fulfilled, (state, action) => {
+        if (!action.payload.success) return
+        const updatedInvoice = action.payload.response;
+        const index = state.invoices.findIndex(invoice => invoice._id === updatedInvoice._id);
+        (index !== -1) ? (state.invoices[index] = { ...updatedInvoice }) : (state.invoices.push({ ...updatedInvoice }))
       })
   }
 });

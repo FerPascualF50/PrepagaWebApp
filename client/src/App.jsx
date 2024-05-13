@@ -12,8 +12,10 @@ import DashboardUser from './pages/DashUser'
 import DashboardAdmin from './pages/DashAdmin'
 import ForgetPass from './pages/ForgetPass'
 import ValidateCodePass from './pages/ValidateCodePass'
-import TabsAdmin from './components/TabsAdmin'
+import TabsAdmin from './pages/TabsAdmin'
 import Users from './pages/Users'
+import TabsUser from './pages/TabsUser'
+import MyProfile from './pages/MyProfile'
 import './App.css'
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
@@ -47,10 +49,10 @@ const App = () => {
           <Route path='invoicing' element={<TabsAdmin />} />
           <Route path='users' element={<Users />} />
         </Route>
-        <Route path='/dashboard-user' element={<DashboardUser />}>
-          {/* <Route path='my-invoices' element={<MyInvoices />} />
-            <Route path='my-profile' element={<MyProfile />} />
-            <Route path='exams' element={<Exams />} /> */}
+        <Route path='/dashboard-user'>
+          <Route index element={<DashboardUser />} />
+          <Route path='manage' element={<TabsUser />} />
+          <Route path='profile' element={<MyProfile />} />
         </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>
