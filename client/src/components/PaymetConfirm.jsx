@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText, TextField, Grid } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogTitle, DialogContent, TextField, Grid } from '@mui/material';
 
 const PaymentConfirm = ({ open, handleClose, handleConfirmPayment }) => (
   <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
@@ -6,7 +6,6 @@ const PaymentConfirm = ({ open, handleClose, handleConfirmPayment }) => (
       {"Te pedimos los datos de tu tarjeta de crédito"}
     </DialogTitle>
     <DialogContent>
-      {/* <DialogContentText id="alert-dialog-description"> */}
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField autoFocus margin="dense" id="cardNumber" label="Número de tarjeta" type="text" fullWidth />
@@ -18,7 +17,6 @@ const PaymentConfirm = ({ open, handleClose, handleConfirmPayment }) => (
             <TextField  margin="dense"  id="securityCode" label="Código de seguridad" type="text" fullWidth />
           </Grid>
         </Grid>
-      {/* </DialogContentText> */}
     </DialogContent>
     <DialogActions>
       <Button style={{ marginRight: '20px' }} onClick={handleClose} >CANCELAR</Button>
