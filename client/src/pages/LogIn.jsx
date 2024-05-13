@@ -17,7 +17,7 @@ const initialState = {
   password: ''
 }
 
-const SignIn = () => {
+const Login = () => {
   const [newUser, setNewUser] = useState(initialState)
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
@@ -93,4 +93,4 @@ const SignIn = () => {
   );
 }
 
-export default SignIn
+export default Login
