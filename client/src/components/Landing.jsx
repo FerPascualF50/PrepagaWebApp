@@ -1,4 +1,4 @@
-import CardsServices from './Cards_services';
+import CardsServices from './CardsServices'
 import styles from '../components/styles/landing.module.css'
 import homeImg from '../assets/img/home_img.jpg'
 import { Skeleton } from '@mui/material';
