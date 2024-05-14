@@ -31,6 +31,6 @@ export const getInvoicesPDFController = async (req, res) => {
     res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
     await getInvoicesPDFService(id, res);
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    res.status(404).json({ success: false, error: error.message });
   }
 };
