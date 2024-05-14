@@ -89,7 +89,7 @@ const Login = () => {
             </Grid >
           </Grid>
             <Button>
-              <Grid item > <Link to="/signup" variant="body2" sx={{ cursor: 'pointer'}}> {"No tenes cuenta aún? Registrate aqui"}</Link> </Grid>
+              <Grid item > <Link to="/signup" variant="body2" sx={{ cursor: 'pointer', color:'grey', textDecoration:'none'}}> {"No tenes cuenta aún? Registrate aqui"}</Link> </Grid>
             </Button>
         </Box>
       </Box>
