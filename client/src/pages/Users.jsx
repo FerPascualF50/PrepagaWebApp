@@ -64,7 +64,7 @@ const Users = () => {
       <Box sx={{ textAlign: 'center', mb: 2 }}>
         <Typography variant="h6" sx={{ paddingBottom: '10px', paddingTop: '10px' }}> Administrar Usuarios </Typography>
         <Box sx={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', m: 2, height: '56px' }}>
-          <Button variant="outlined" color="secondary" startIcon={<AddCircleSharp />} sx={{ height: '56px', minWidth: '100px' }}> Crear </Button>
+          {/* <Button variant="outlined" color="secondary" startIcon={<AddCircleSharp />} sx={{ height: '56px', minWidth: '100px' }}> Crear </Button> */}
           <TextField label="Buscar" variant="outlined" value={search} onChange={handleSearchChange} sx={{ mx: 2, height: '42px', width: '300px' }} />
           <Box />
         </Box>
@@ -88,7 +88,7 @@ const Users = () => {
               <TableCell sx={{ fontWeight: 'bold' }}>Rol</TableCell>
               <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Email</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Plan</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Editar</TableCell>
+              {/* <TableCell sx={{ fontWeight: 'bold' }}>Editar</TableCell> */}
               <TableCell sx={{ fontWeight: 'bold' }}>Eliminar</TableCell>
             </TableRow>
           </TableHead>
@@ -100,11 +100,11 @@ const Users = () => {
                 <TableCell>{user.rol}</TableCell>
                 <TableCell>{user.userName}</TableCell>
                 <TableCell>{user.plan?.name ? user.plan.name : "No cliente"}</TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <IconButton color="#f3f3f3">
                     <EditIcon />
                   </IconButton>
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   <IconButton color="secondary" onClick={() => handleDelete(user._id)}>
                     <DeleteIcon />

@@ -32,6 +32,22 @@ export const deleteUsers = createAsyncThunk(
   }
 );
 
+export const updateUsers = createAsyncThunk(
+  'user/updateUsers',
+  async (id) => {
+    try {
+      const access_token = localStorage.getItem('access_token');
+      const response = await axios.put(
+        `/users/${id}`, { headers: { Authorization: access_token } }, { params: id }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -48,7 +64,13 @@ const userSlice = createSlice({
       builder.addCase(deleteUsers.fulfilled, (state, action) => {
         if (!action.payload.success) return 
         state.users = state.users.filter(user => user._id !== action.payload.response.id)
-      });
+      })
+      builder.addCase(updateUsers.fulfilled, (state, action) => {
+        if (!action.payload.success) return 
+        const updatedUser = action.payload.response;
+        const index = state.users.findIndex(user => user._id === updatedUser._id);
+        (index !== -1) ? (state.users[index] = { ...updatedUser }) : (state.users.push({ ...updatedUser }))
+      })
   }
 });
 
