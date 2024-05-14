@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
 import Loading from '../components/Loading';
 import { getPlans, setSelectedPlan } from '../store/planSlice';
+import { updateUsers } from '../store/userSlice';
 
 // import { authSlice } from '../redux/actions/userActions';
 
@@ -49,7 +50,7 @@ const UserForm = () => {
   };
 
   const handleSubmit = () => {
-    dispatch(authSlice(userData));
+    dispatch(updateUsers(userData));
   };
 
 
