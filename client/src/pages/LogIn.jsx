@@ -85,13 +85,13 @@ const Login = () => {
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2, color: '#fff' }}>Ingresar</Button>
           <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
             {/* <Grid item xs>  */}
-            <Button>
-              <Link to='/forget-pass'> Olvidaste tu clave? </Link>
+            <Button onClick={navigate('/forget-pass')} sx={{ color: '#fff', boxShadow: 'none' }}>
+              {/* <Link to='/forget-pass'> Olvidaste tu clave? </Link> */}
             </Button>
             {/* </Grid> */}
             {/* <Grid item>  */}
             <Button>
-              <Link to='/signup' variant="body2"> {"No tenes cuenta aún? Registrate aqui"}</Link>
+              <Link to='/signup' variant="body2" sx={{ color: '#fff', boxShadow: 'none' }}> {"No tenes cuenta aún? Registrate aqui"}</Link>
             </Button>
             {/* </Grid> */}
           </Grid>
