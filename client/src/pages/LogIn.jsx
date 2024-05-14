@@ -83,18 +83,18 @@ const Login = () => {
           <TextField margin="normal" required fullWidth id="email" label="e-mail" name="userName" autoComplete="email" autoFocus onChange={handleInput} />
           <TextField margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" onChange={handleInput} />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2, color: '#fff' }}>Ingresar</Button>
-          <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
+          {/* <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}> */}
             {/* <Grid item xs>  */}
-            <Button onClick={navigate('/forget-pass')} sx={{ color: '#fff', boxShadow: 'none' }}>
+            <Button onClick={navigate('/forget-pass')} sx={{ color: '#rey', boxShadow: 'none' }}>
               {/* <Link to='/forget-pass'> Olvidaste tu clave? </Link> */}
             </Button>
             {/* </Grid> */}
             {/* <Grid item>  */}
             <Button>
-              <Link to='/signup' variant="body2" sx={{ color: '#fff', boxShadow: 'none' }}> {"No tenes cuenta aún? Registrate aqui"}</Link>
+              <Link to='/signup' variant="body2" sx={{ color: 'grey', boxShadow: 'none' }}> {"No tenes cuenta aún? Registrate aqui"}</Link>
             </Button>
             {/* </Grid> */}
-          </Grid>
+          {/* </Grid> */}
         </Box>
       </Box>
     </Container>
