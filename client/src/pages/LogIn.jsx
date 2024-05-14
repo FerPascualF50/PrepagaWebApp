@@ -84,11 +84,13 @@ const Login = () => {
           <TextField margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" onChange={handleInput} />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2, color: '#fff' }}>Ingresar</Button>
           <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
-            <Grid item xs> 
-            <Link to="/forget-pass" variant="body2"> Olvidaste tu clave? </Link>  
-            </Grid>
-            <Grid item> <Link to="/signup" variant="body2"> {"No tenes cuenta aún? Registrate aqui"}</Link> </Grid>
+            <Grid item xs>
+              <Link to="/forget-pass" variant="body2"> Olvidaste tu clave? </Link>
+            </Grid >
           </Grid>
+            <Button>
+              <Grid item > <Link to="/signup" variant="body2" sx={{ cursor: 'pointer'}}> {"No tenes cuenta aún? Registrate aqui"}</Link> </Grid>
+            </Button>
         </Box>
       </Box>
     </Container>
