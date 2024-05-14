@@ -23,6 +23,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from '../components/styles/nav_bar.module.css'
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { deleteInvoice } from '../store/invoiceSlice';
 
 const drawerWidth = 160;
 const navItems = [
@@ -70,9 +71,9 @@ function DrawerAppBar(props) {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const handleLogout = () => {
-    dispatch(logout())
-    localStorage.removeItem('access_token')
+  const handleLogout = async() => {
+    await dispatch(logout())
+    await dispatch(deleteInvoice())
     navigate('/')
   }
 

@@ -101,20 +101,19 @@ export const getMyPdfInvoice = createAsyncThunk(
     try {
       const access_token = localStorage.getItem('access_token');
       const response = await axios.get(`/invoices/pdf/${id}`, {
-        responseType: 'blob', // Indica que esperamos un blob como respuesta
+        responseType: 'blob', 
         headers: { Authorization: access_token },
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `invoice_${id}.pdf`); // Nombre del archivo
+      link.setAttribute('download', `invoice_${id}.pdf`); 
       document.body.appendChild(link);
       link.click();
       window.URL.revokeObjectURL(url);
       link.remove();
       
     } catch (error) {
-      // console.error(error);
       throw error;
     }
   }
@@ -136,6 +135,10 @@ const invoiceSlice = createSlice({
     },
     removeMonth: (state, action) => {
       state.months = state.months.filter(item => item !== action.payload);
+    },
+    deleteInvoice: (state) => {
+      state.users = []
+      state.invoices = []
     }
   },
   extraReducers: (builder) => {
@@ -169,5 +172,5 @@ const invoiceSlice = createSlice({
   }
 });
 
-export const { setYearAndMonths, removeMonth } = invoiceSlice.actions
+export const { setYearAndMonths, removeMonth, deleteInvoice } = invoiceSlice.actions
 export default invoiceSlice.reducer

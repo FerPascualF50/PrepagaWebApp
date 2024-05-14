@@ -28,15 +28,14 @@ const MyInvoices = () => {
 
   const handleConfirmPayment = async () => {
     setLoading(true)
-    const response = await dispatch(updatePaymentInvoice(selectedInvoiceId));
-    setLoading(false)
-    if (!response.payload.success) return toast.error(`${response.payload.error}`)
-      setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
+    setLoading(true)
+    setTimeout(async () => {
+      const response = await dispatch(updatePaymentInvoice(selectedInvoiceId));
+      if (!response.payload.success) return toast.error(`${response.payload.error}`)
       setIsDialogOpen(false);
       toast.success(`El Pago fue realizado con éxito`)
-    }, 3000);
+      setLoading(false)
+    }, 2000);
   };
 
   const handleCloseDialog = () => {
@@ -44,8 +43,13 @@ const MyInvoices = () => {
   };
 
   const handleGetPdfInvoice = async (id) => {
-    const response = await dispatch(getMyPdfInvoice(id))
-    if(response.payload == undefined) return toast.error('La factura ya no existe')
+    try {
+      const response = await dispatch(getMyPdfInvoice(id))
+      if (response?.error) return toast.error('La factura ya no existe')
+      return toast.success('La factura se descargo correctamente')
+    } catch (error) {
+      return toast.error('La factura ya no existe')
+    }
   };
 
   return (
