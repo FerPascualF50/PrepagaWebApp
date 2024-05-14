@@ -22,10 +22,10 @@ const Login = () => {
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { pathname } = useLocation();
-  const userId = pathname.split('/login/')[1];
-  const location = useLocation();
-  const userName = new URLSearchParams(location.search).get("userName");
+  // const { pathname } = useLocation();
+  // const userId = pathname.split('/login/')[1];
+  // const location = useLocation();
+  // const userName = new URLSearchParams(location.search).get("userName");
   const access_token = localStorage.getItem('access_token')
 
   useEffect(() => {
