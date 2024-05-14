@@ -22,10 +22,10 @@ const Login = () => {
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  // const { pathname } = useLocation();
-  // const userId = pathname.split('/login/')[1];
-  // const location = useLocation();
-  // const userName = new URLSearchParams(location.search).get("userName");
+  const { pathname } = useLocation();
+  const userId = pathname.split('/login/')[1];
+  const location = useLocation();
+  const userName = new URLSearchParams(location.search).get("userName");
   const access_token = localStorage.getItem('access_token')
 
   useEffect(() => {
@@ -85,13 +85,13 @@ const Login = () => {
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2, color: '#fff' }}>Ingresar</Button>
           {/* <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}> */}
             {/* <Grid item xs>  */}
-            <Button onClick={navigate('/forget-pass')} sx={{ color: '#rey', boxShadow: 'none' }}> ¿Olvidaste tu clave?
+            <Button onClick={navigate('/forget-pass')} sx={{ color: '#grey', boxShadow: 'none' }}> ¿Olvidaste tu clave?
               {/* <Link to='/forget-pass'> Olvidaste tu clave? </Link> */}
             </Button>
             {/* </Grid> */}
             {/* <Grid item>  */}
-            <Button>No tenes cuenta aún? Registrate aqui
-              <Link to='/signup' variant="body2" sx={{ color: 'grey', boxShadow: 'none' }}> </Link>
+            <Button to='/signup' variant="body2" sx={{ color: 'grey', boxShadow: 'none' }}>No tenes cuenta aún? Registrate aqui
+              {/* <Link to='/signup' variant="body2" sx={{ color: 'grey', boxShadow: 'none' }}> </Link> */}
             </Button>
             {/* </Grid> */}
           {/* </Grid> */}
