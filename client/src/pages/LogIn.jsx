@@ -86,12 +86,12 @@ const Login = () => {
           <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
             {/* <Grid item xs>  */}
             <Button>
-              <Link to="/forget-pass"> Olvidaste tu clave? </Link>
+              <Link to='/forget-pass'> Olvidaste tu clave? </Link>
             </Button>
             {/* </Grid> */}
             {/* <Grid item>  */}
             <Button>
-              <Link to="/signup" variant="body2"> {"No tenes cuenta aún? Registrate aqui"}</Link>
+              <Link to='/signup' variant="body2"> {"No tenes cuenta aún? Registrate aqui"}</Link>
             </Button>
             {/* </Grid> */}
           </Grid>
