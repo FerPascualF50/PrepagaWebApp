@@ -1,20 +1,22 @@
 import mongoose from "mongoose";
-import { getAllUsersService, getUserByIdService, updateUserService, deleteUserService, updatePassService, updateRolService, createUsersToAdminsService } from "../services/user.service.js";
+import { getAllUsersService, getUserByIdService, updateUserService, deleteUserService, updatePassService, updateRolService, createUsersToAdminsService, patchPlanOnUserService } from "../services/user.service.js";
 import { hasEmptyField, hasAllFields, hasStringValue, hasPassFormat, hasOnlyLetters } from "../utils/validation.js";
 import { fieldsByController } from "../utils/fieldsByController.js"
 
 export const updateUserControler = async (req, res) => {
   try {
-    const id = req.user.rol === 'admin' ? req.params.id : req.user.id;
-    const { firstName, lastName, cellphone, address, taxId, plan } = req.body;
+    // const id = req.user.rol === 'admin' ? req.params.id : req.user.id;
+    const { _id, firstName, lastName, cellphone, address, taxId, plan } = req.body;
+    const id = _id
     if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID del ususario proporcionado no tiene el formato válido');
-    if (!mongoose.Types.ObjectId.isValid(plan)) throw new Error('El ID del plan proporcionado no tiene el formato válido');
-    if (hasEmptyField(id, firstName, lastName, address, plan)) throw new Error('Falta uno o más campos requeridos');
+    if (!mongoose.Types.ObjectId.isValid(plan._id)) throw new Error('El ID del plan proporcionado no tiene el formato válido');
+    if (hasEmptyField(id, firstName, lastName, address, plan._id)) throw new Error('Falta uno o más campos requeridos');
     if (!hasOnlyLetters({firstName, lastName})) throw new Error('Los datos deben ser solo letras');
     if (hasStringValue({cellphone, taxId}))  throw new Error('El campo celular y CUIT deben ser numeros');
     if (cellphone.toString().length != 10 || taxId.toString().length != 11) throw new Error('El campo celular o CUIT no tienen la logitud correcta');
-    if (!hasAllFields(req.body, fieldsByController.updateEngageUserControler)) throw new Error('Ups... algo falló');
-    const updateUserToClient = await updateUserService(id, { firstName, lastName, cellphone, address, taxId, plan });
+    // if (!hasAllFields(req.body, fieldsByController.updateEngageUserControler)) throw new Error('Ups... algo falló');
+    const user = {firstName, lastName, cellphone, address, taxId, plan: plan._id}
+    const updateUserToClient = await updateUserService(id, user );
     return res.status(201).send({ success: true, response: updateUserToClient, message: "Usuario actualizado correctamente" });
   } catch (error) {
     res.json({ success: false, error: error.message });
@@ -96,4 +98,14 @@ export const createUsersToAdminsController = async (req, res) => {
   } catch (error) {
     res.json({ success: false, error: error.message });
   }
+};
+
+export const patchPlanOnUserController = async (req, res) => {
+  const { id } = req.user;
+  const  planId  = req.body._id
+  // return console.log(req.body._id)
+  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID del usuario proporcionado no tiene el formato válido');
+  if (!mongoose.Types.ObjectId.isValid(planId)) throw new Error('El ID del plan proporcionado no tiene el formato válido');
+  const newUser = await patchPlanOnUserService(id, planId);
+  return res.status(200).send({ success: true, response: newUser });
 };

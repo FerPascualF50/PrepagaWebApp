@@ -114,4 +114,18 @@ export const updatePassService = async (id, oldPass, newPass) => {
   } catch (error) {
     throw error;
   }
-}; 
+};
+
+export const patchPlanOnUserService = async (id, planId) => {
+  try {
+    const newUser = await UserModel.findByIdAndUpdate(id, 
+      { plan: planId },
+      { new: true }
+    );
+    if (!newUser) throw new Error('Usuario inexistente');
+    return newUser;
+  } catch (error) {
+    throw error;
+  };
+};
+
