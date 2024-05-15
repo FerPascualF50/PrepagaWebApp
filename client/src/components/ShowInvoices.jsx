@@ -43,11 +43,10 @@ const ShowInvoices = () => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredInvoices = invoices.filter(invoice => {
+  const filteredInvoices = invoices?.filter(invoice => {
     const { client } = invoice;
     const fullName = client ? `${client.firstName} ${client.lastName}` : '';
     const searchLower = searchTerm.toLowerCase();
-
     return fullName.toLowerCase().includes(searchLower) || client.firstName.toLowerCase().includes(searchLower) || client.lastName.toLowerCase().includes(searchLower);
   });
 
@@ -85,11 +84,11 @@ const ShowInvoices = () => {
           <TableBody>
             {filteredInvoices.map((invoice) => (
               <TableRow key={invoice._id}>
-                <TableCell>{invoice.client.firstName}</TableCell>
-                <TableCell>{invoice.client.lastName}</TableCell>
-                <TableCell>{invoice.period.year}</TableCell>
-                <TableCell>{invoice.period.month}</TableCell>
-                <TableCell>{invoice.number}</TableCell>
+                <TableCell>{invoice.client?.firstName}</TableCell>
+                <TableCell>{invoice.client?.lastName}</TableCell>
+                <TableCell>{invoice.period?.year}</TableCell>
+                <TableCell>{invoice.period?.month}</TableCell>
+                <TableCell>{invoice?.number}</TableCell>
                 <TableCell>
                   <Typography variant="body1" style={{ color: getStatusInfo(invoice.statusPayment).color }}>
                     {getStatusInfo(invoice.statusPayment).text}
