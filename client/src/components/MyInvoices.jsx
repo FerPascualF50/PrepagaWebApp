@@ -63,10 +63,10 @@ const MyInvoices = () => {
         <Table sx={{ minWidth: '100%', maxWidth: '100%', mx: "auto" }}>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 'bold' }}>Vencimiento </TableCell>
+              <TableCell sx={{ fontWeight: 'bold', minWidth: '120px' }}>Vencimiento </TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Nº </TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Periodo </TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }} >Importe </TableCell>
+              <TableCell sx={{ fontWeight: 'bold', minWidth: '100px' }}>Periodo </TableCell>
+              <TableCell sx={{ fontWeight: 'bold', minWidth: '100px' }} >Importe </TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Estado</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Pagar</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Factura</TableCell>
@@ -75,9 +75,9 @@ const MyInvoices = () => {
           <TableBody>
             {invoices.map((invoice) => (
               <TableRow key={invoice._id}>
-                <TableCell sx={{ minWidth: '120px' }}>{invoice.expirationPayment}</TableCell>
+                <TableCell >{invoice.expirationPayment}</TableCell>
                 <TableCell sx={{ fontWeight: 'bold' }}>{invoice.number}</TableCell>
-                <TableCell sx={{ minWidth: '100px' }}>{invoice.period.month} / {invoice.period.year}</TableCell>
+                <TableCell >{invoice.period.month} / {invoice.period.year}</TableCell>
                 <TableCell sx={{ fontWeight: 'bold' }}>$ {invoice.price}</TableCell>
                 <TableCell>
                   {invoice.statusPayment === 'pending' ? (
