@@ -18,7 +18,6 @@ const Manage = () => {
   const navigate = useNavigate()
 
   const user = useSelector(state => state.auth)
-  console.log('ESTO VIENDE AUHT', user)
 
   const handleDelete = (userId) => {
     setSelectedUserId(userId);
