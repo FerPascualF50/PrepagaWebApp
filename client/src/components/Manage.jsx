@@ -5,7 +5,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Loading from './Loading';
 import toast, { Toaster } from 'react-hot-toast';
 import AlertDialog from './DialogConfirm';
-import { deleteUsers } from '../store/userSlice';
+import { deleteMyUser } from '../store/authSlice';
 import { logout } from '../store/authSlice'
 import { useNavigate } from 'react-router-dom';
 
@@ -26,7 +26,7 @@ const Manage = () => {
   };
 
   const handleConfirmDelete = async () => {
-    const response = await dispatch(deleteUsers(selectedUserId));
+    const response = await dispatch(deleteMyUser(selectedUserId));
     setIsDialogOpen(false);
     if (!response.payload.success) return toast.error(`No se puede eliminar.\n${response.payload.error}`)
     localStorage.removeItem('access_token')

@@ -96,6 +96,22 @@ export const validateCodePassAsync = createAsyncThunk(
   }
 )
 
+export const deleteMyUser = createAsyncThunk(
+  'user/deleteMyUser',
+  async (id) => {
+    try {
+      const access_token = localStorage.getItem('access_token');
+      const response = await axios.delete(
+        `/users/${id}`, { headers: { Authorization: access_token } }, { params: id }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -129,7 +145,11 @@ const authSlice = createSlice({
       }),
       builder.addCase(validateCodePassAsync.fulfilled, (state, action) => {
         state.user = action.payload
+      }),
+      builder.addCase(deleteMyUser.fulfilled, (state, action) => {
+        state.user = action.payload
       })
+      
   }
 })
 
