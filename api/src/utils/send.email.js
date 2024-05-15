@@ -2,10 +2,11 @@ import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
 import fs from 'fs';
 import path from 'path';
-import { USER_EMAIL, EMAIL_PASS } from "../config.js";
+import { USER_EMAIL, EMAIL_PASS, BASE_URL_CLIENT } from "../config.js";
 import { confirmEmailTemplate } from "../emailTemplates/confirm.user.email.js";
 import { confirmEmailPassTemplate } from "../emailTemplates/confirm.pass.js";
 import { invoicePDFTemplate } from "../emailTemplates/invoice_pdf.js";
+
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -21,7 +22,7 @@ const transporter = nodemailer.createTransport({
 
 export const sendValidationEmailService = async (userId, userName) => {
   try {
-    const validationLink = `http://localhost:5173/login/${userId}?userName=${encodeURIComponent(userName)}`;
+    const validationLink = `${BASE_URL_CLIENT}/login/${userId}?userName=${encodeURIComponent(userName)}`;
     const emailBody = confirmEmailTemplate.replace('{{validationLink}}', validationLink);
     await transporter.sendMail({
       from: USER_EMAIL,
