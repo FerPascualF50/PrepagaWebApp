@@ -34,11 +34,26 @@ export const deleteUsers = createAsyncThunk(
 
 export const updateUsers = createAsyncThunk(
   'user/updateUsers',
-  async (id) => {
+  async (user) => {
     try {
       const access_token = localStorage.getItem('access_token');
       const response = await axios.put(
-        `/users/${id}`, { headers: { Authorization: access_token } }, { params: id }
+        `/users`, user, { headers: { Authorization: access_token } }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+export const patchPlanOnUser = createAsyncThunk(
+  'user/patchPlanOnUser',
+  async (planId) => {
+    try {
+      const access_token = localStorage.getItem('access_token');
+      const response = await axios.patch(
+        `/users/plan`, {_id:planId}, { headers: { Authorization: access_token } }
       );
       return response.data;
     } catch (error) {
@@ -55,21 +70,25 @@ const userSlice = createSlice({
 
   },
   reducers: {
-   
+
   },
   extraReducers: (builder) => {
     builder.addCase(getAllUsers.fulfilled, (state, action) => {
       state.users = action.payload.response || null;
     }),
       builder.addCase(deleteUsers.fulfilled, (state, action) => {
-        if (!action.payload.success) return 
+        if (!action.payload.success) return
         state.users = state.users.filter(user => user._id !== action.payload.response.id)
-      })
+      }),
       builder.addCase(updateUsers.fulfilled, (state, action) => {
-        if (!action.payload.success) return 
+        if (!action.payload.success) return
         const updatedUser = action.payload.response;
         const index = state.users.findIndex(user => user._id === updatedUser._id);
         (index !== -1) ? (state.users[index] = { ...updatedUser }) : (state.users.push({ ...updatedUser }))
+      }),
+      builder.addCase(patchPlanOnUser.fulfilled, (state, action) => {
+        if (!action.payload.success) return
+        state.users = action.payload.response || null;
       })
   }
 });
