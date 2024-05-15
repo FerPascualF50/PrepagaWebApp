@@ -13,7 +13,7 @@ import { useState } from 'react';
     <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
       <Tabs value={value} onChange={handleChange} centered sx={{paddingTop: '16px'}}>
         <Tab label="MIS FACTURAS" />
-        <Tab label="MIS ATORIZACIONES" />
+        <Tab label="GESTIONAR" />
       </Tabs>
       <Box>
         {value === 0 && <MyInvoices />}
