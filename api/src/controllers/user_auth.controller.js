@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { createUserService, userValidationService, loginService, forgotPassService, passValidationService } from "../services/user_auth.service.js";
+import { createUserService, userValidationService, loginService, forgotPassService, passValidationService, validateTokenService } from "../services/user_auth.service.js";
 import { hasEmptyField, hasAllFields, isEmail, hasOnlyLetters, hasPassFormat } from "../utils/validation.js";
 import { fieldsByController } from '../utils/fieldsByController.js';
 
@@ -54,7 +54,9 @@ export const loginController = async (req, res) => {
 
 export const validateToken = async (req, res) => {
   try {
-    return res.json({ success: true, response: req.user })
+    const { userName } = req.user;
+    const user = await validateTokenService (userName) 
+    return res.json({ success: true, response: user })
   } catch (error) {
     res.json({ success: false, error: error.message });
   }

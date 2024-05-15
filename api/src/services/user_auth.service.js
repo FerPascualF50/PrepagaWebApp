@@ -94,3 +94,13 @@ export const passValidationService = async (userName, password, code) => {
     throw error;
   }
 };
+
+export const validateTokenService = async (userName) => {
+  try {
+    const user = await UserModel.findOne({ userName }).populate('plan', 'name');
+    if(!user) throw new Error('Usuario inexistente')
+    return  user ;
+  } catch (error) {
+    throw error;
+  }
+};
