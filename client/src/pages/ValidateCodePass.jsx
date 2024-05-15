@@ -92,7 +92,7 @@ const ValidateCodePass = () => {
             fullWidth
             name="password"
             label="Tu nueva password"
-            type="text"
+            type="password"
             id="password"
             autoComplete=""
             onChange={handleInput}
