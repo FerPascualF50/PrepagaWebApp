@@ -74,7 +74,6 @@ const ValidateCodePass = () => {
         <Typography component="h6" sx={{ color: 'secondary.main' }}>
           {'* Es un codigo de 6 números'}
         </Typography>
-
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
@@ -83,8 +82,7 @@ const ValidateCodePass = () => {
             id="code"
             label="Tu código"
             name="code"
-            autoComplete=""
-            // autoFocus
+            autoComplete="off"
             onChange={handleInput}
           />
           <TextField
@@ -94,7 +92,7 @@ const ValidateCodePass = () => {
             label="Tu nueva password"
             type="password"
             id="password"
-            autoComplete=""
+            autoComplete="off"
             onChange={handleInput}
           />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2, color: '#fff' }}>Enviar</Button>
