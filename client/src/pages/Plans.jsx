@@ -58,7 +58,7 @@ const Plans = () => {
                   <div style={{ marginRight: '4%' }}>{`$ ${plan.price},00`}</div>
                 </AccordionSummary>
                 <AccordionDetails sx={{ margin: '12px', marginTop: '0px', width: '100%', color: 'grey', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <Button variant="contained" color="secondary" onClick={() => handleContratar(plan._id)} sx={{ marginBottom: '16px' }}>CONTRATAR</Button>
+                  <Button variant="contained" color="secondary" onClick={() => navigate('/dashboard-user/profile')} sx={{ marginBottom: '16px' }}>CONTRATAR</Button>
                   <ul style={{ color: 'grey', width: '100%', fontWeight: 'bold' }}> Beneficios Principales:
                     {plan.mainBenefits.map((benefit, subIndex) => (
                       <li key={subIndex} style={{ fontWeight: 'lighter ' }}>{benefit}</li>
