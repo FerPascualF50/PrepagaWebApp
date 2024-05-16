@@ -21,6 +21,8 @@ import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { forcedLogin, validateLogin } from './store/authSlice'
+import PrivateRoute from './components/PrivateRoutes'
+import { Toaster } from 'react-hot-toast';
 axios.defaults.baseURL = import.meta.env.VITE_API_LOCAL_BASE_URL
 
 const App = () => {
@@ -33,6 +35,7 @@ const App = () => {
 
   return (
     <Layout>
+      <Toaster position="top-center" reverseOrder={false} />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/signup' element={<SignUp />} />
@@ -40,7 +43,9 @@ const App = () => {
         <Route path="/login/:userId" element={<Login />} />
         <Route path="/forget-pass" element={<ForgetPass />} />   
         <Route path="/input-code/:userName" element={<ValidateCodePass />} />
-        <Route path='/plans' element={<Plans />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/plans" element={<Plans />} />
+        </Route>
         <Route path='/centers' element={<Centers />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/faq' element={<Faq />} />
