@@ -59,7 +59,7 @@ const Manage = () => {
       <Box sx={{ textAlign: 'left', mb: 2, mt: 4, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <Typography variant="h6" color="grey" sx={{ display: 'inline-block', marginRight: '10px' }}>Plan:</Typography>
         <Typography variant="h6" color="secondary" sx={{ display: 'inline-block', minWidth: '140px', mr: '0' }}>
-          {user?.user.plan.name ? user.user.plan.name : 'Aún sin Plan'}
+          {user?.user.plan?.name ? user.user.plan?.name : 'Aún sin Plan'}
         </Typography>        <Button
           variant="outlined"
           color="secondary"
