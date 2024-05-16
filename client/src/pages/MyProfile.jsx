@@ -3,18 +3,26 @@ import { TextField, Button, Select, MenuItem, Box, Typography, Container, CssBas
 import { useSelector, useDispatch } from 'react-redux';
 import { getPlans, setSelectedPlan } from '../store/planSlice';
 import { updateUsers } from '../store/userSlice';
-import Loading from '../components/Loading';
+import {  validateLogin } from '../store/authSlice'
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const UserForm = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const access_token = localStorage.getItem('access_token')
+
+  useEffect(() => {
+    if (!access_token) return
+    dispatch(validateLogin())
+  }, [])
+
   const { user } = useSelector(state => state.auth);
+
   const [userUpload, setUserUpload] = useState({})
 
   useEffect(() => {
     dispatch(getPlans());
-    setUserUpload(user)
-  }, [user]);
+  }, []);
   const { plans } = useSelector(state => state.plan);
 
   const handleChange = (e) => {
@@ -25,9 +33,11 @@ const UserForm = () => {
     })
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(updateUsers(userUpload));
+    const response = await dispatch(updateUsers(userUpload));
+    if(!response.payload.success) return toast.error(`${response.payload.error}`)
+    return toast.success(`${response.payload.message}`)
   };
   
   const handleChangePlan = (e) => {
@@ -38,7 +48,7 @@ const UserForm = () => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      {loading && <Loading />}
+      <Toaster  />
       <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
         <Typography component="h1" variant="h5" sx={{ color: 'grey' }}>
           Actualiza tus datos
@@ -59,7 +69,7 @@ const UserForm = () => {
                 id="lastName"
                 label="Tu apellido"
                 name="lastName"
-                // autoComplete="family-name"
+                autoComplete="off"
                 value={userUpload?.lastName || ''}
                 onChange={handleChange}
               />
@@ -69,7 +79,7 @@ const UserForm = () => {
                 id="phone"
                 label="Tu celu"
                 name="cellphone"
-                // autoComplete="cellphone"
+                autoComplete="off"
                 value={userUpload?.cellphone || ''}
                 onChange={handleChange}
               />
@@ -80,7 +90,7 @@ const UserForm = () => {
                 label="Todos los datos de tu dirección"
                 type="text"
                 id="address"
-                // autoComplete="address"
+                autoComplete="off"
                 value={userUpload?.address || ''}
                 onChange={handleChange}
               />
@@ -91,6 +101,7 @@ const UserForm = () => {
                 label="Tu CUIL"
                 type="number"
                 id="taxId"
+                autoComplete="off"
                 value={userUpload?.taxId || ''}
                 onChange={handleChange}
               />
