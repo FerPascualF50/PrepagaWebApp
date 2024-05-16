@@ -8,12 +8,20 @@ import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import Loading from './Loading';
 import toast, { Toaster } from 'react-hot-toast';
 import PaymentConfirm from '../components/PaymetConfirm';
+import { forcedLogin, validateLogin } from '../store/authSlice'
+
 
 const MyInvoices = () => {
   const [loading, setLoading] = useState(false);
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const access_token = localStorage.getItem('access_token')
+  
+  useEffect(() => {
+    if (!access_token) return
+    dispatch(validateLogin())
+  }, [])
 
   useEffect(() => {
     dispatch(InvoicesByUser());
