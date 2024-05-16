@@ -35,7 +35,6 @@ const App = () => {
 
   return (
     <Layout>
-      <Toaster position="top-center" reverseOrder={false} />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/signup' element={<SignUp />} />
