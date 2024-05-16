@@ -10,9 +10,9 @@ export const updateUserControler = async (req, res) => {
     const id = _id
     if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID del ususario proporcionado no tiene el formato válido');
     if (!mongoose.Types.ObjectId.isValid(plan._id)) throw new Error('El ID del plan proporcionado no tiene el formato válido');
-    if (hasEmptyField(id, firstName, lastName, address, plan._id)) throw new Error('Falta uno o más campos requeridos');
-    if (!hasOnlyLetters({firstName, lastName})) throw new Error('Los datos deben ser solo letras');
-    if (hasStringValue({cellphone, taxId}))  throw new Error('El campo celular y CUIT deben ser numeros');
+    if (hasEmptyField(id, firstName, lastName, address, plan._id, cellphone)) throw new Error('Falta uno o más campos requeridos');
+    if (!hasOnlyLetters({firstName, lastName})) throw new Error('Nomnbre, apelldo y dirección deben ser solo letras y no estar vacío');
+    // if (hasStringValue({cellphone, taxId}))  throw new Error('El campo celular y CUIT deben ser numeros');
     if (cellphone.toString().length != 10 || taxId.toString().length != 11) throw new Error('El campo celular o CUIT no tienen la logitud correcta');
     // if (!hasAllFields(req.body, fieldsByController.updateEngageUserControler)) throw new Error('Ups... algo falló');
     const user = {firstName, lastName, cellphone, address, taxId, plan: plan._id}
@@ -22,7 +22,6 @@ export const updateUserControler = async (req, res) => {
     res.json({ success: false, error: error.message });
   }
 };
-
 export const getUserByIdController = async (req, res) => {
   try {
     const { id } = req.params ;
@@ -103,7 +102,6 @@ export const createUsersToAdminsController = async (req, res) => {
 export const patchPlanOnUserController = async (req, res) => {
   const { id } = req.user;
   const  planId  = req.body._id
-  // return console.log(req.body._id)
   if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('El ID del usuario proporcionado no tiene el formato válido');
   if (!mongoose.Types.ObjectId.isValid(planId)) throw new Error('El ID del plan proporcionado no tiene el formato válido');
   const newUser = await patchPlanOnUserService(id, planId);
