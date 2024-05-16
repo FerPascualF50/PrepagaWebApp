@@ -35,16 +35,9 @@ const Manage = () => {
     const response = await dispatch(deleteMyUser(selectedUserId));
     setIsDialogOpen(false);
     if (!response.payload.success) return toast.error(`No se puede eliminar.\n${response.payload.error}`)
-    localStorage.removeItem('access_token')
+    dispatch(logout());
     toast.success(`Tu usuario:\n${response.payload.response.firstName} ${response.payload.response.lastName}\n fue eliminado con éxito`)
-
-
-    setLoading(true);
-    setTimeout(async () => {
-      await dispatch(logout());
-      navigate('/');
-      setLoading(false);
-    }, 1500)
+    navigate('/');
   };
 
   const handleCloseDialog = () => {
@@ -59,8 +52,9 @@ const Manage = () => {
       <Box sx={{ textAlign: 'left', mb: 2, mt: 4, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <Typography variant="h6" color="grey" sx={{ display: 'inline-block', marginRight: '10px' }}>Plan:</Typography>
         <Typography variant="h6" color="secondary" sx={{ display: 'inline-block', minWidth: '140px', mr: '0' }}>
-          {user?.user.plan?.name ? user.user.plan?.name : 'Aún sin Plan'}
-        </Typography>        <Button
+          {user.user && user.user.plan && user.user.plan.name ? user.user.plan.name : 'Aún sin Plan'}
+        </Typography>
+        <Button
           variant="outlined"
           color="secondary"
           startIcon={<UpgradeIcon />}
