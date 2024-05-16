@@ -117,7 +117,7 @@ const UserForm = () => {
               >
                 <MenuItem disabled>Seleccione un Plan</MenuItem>
                 {plans?.map((plan) => (
-                  <MenuItem key={plan._id} value={plan._id}>{plan.name}</MenuItem>
+                  <MenuItem key={plan?._id} value={plan?._id}>{plan?.name}</MenuItem>
                 ))}
               </Select>
             </Grid>
