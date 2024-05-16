@@ -22,6 +22,7 @@ const UserForm = () => {
 
   useEffect(() => {
     dispatch(getPlans());
+    setUserUpload(user) 
   }, []);
   const { plans } = useSelector(state => state.plan);
 
@@ -49,6 +50,7 @@ const UserForm = () => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Toaster  />
+
       <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
         <Typography component="h1" variant="h5" sx={{ color: 'grey' }}>
           Actualiza tus datos
