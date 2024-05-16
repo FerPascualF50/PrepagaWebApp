@@ -138,7 +138,6 @@ const authSlice = createSlice({
         state.user = action.payload
       }),
       builder.addCase(validateUserAsync.fulfilled, (state, action) => {
-        console.log('LA ACTION', action)
         state.user = action.payload
       }),
       builder.addCase(forgetPassAsync.fulfilled, (state, action) => {
